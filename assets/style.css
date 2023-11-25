@@ -58,6 +58,12 @@ h1 {
     font-size: 35px;
 }
 
+/* Hidden Styling */
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
 /* Styling for the text input */
 input {
     padding: 25px;
