@@ -14,8 +14,7 @@ $('#submitButton').on('click', function () {
     var checkOne = localStorage.getItem("songOne")
     if (checkOne) {
 
-    // Can be toggled once footer has styling
-    // $(`#footer`).toggleClass(`hidden custom-label`)
+    $(`#footer`).toggleClass(`hidden custom-label`)
 
     document.getElementById(`lastSearchSongOne`).innerHTML = localStorage.songOne 
     document.getElementById(`lastSearchArtistOne`).innerHTML = localStorage.artistOne }

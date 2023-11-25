@@ -7,37 +7,39 @@
     <title>BeatBuddy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./assets/style.css" />
+    <link rel="stylesheet" href="spectre-0.5.9/dist/spectre.min.css">
+    <link rel="stylesheet" href="spectre-0.5.9/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="spectre-0.5.9/dist/spectre-icons.min.css">
 </head>
 
 <body>
-    <div class="container">
+    <div class="main-container">
         <img src="background gradient.jpg" alt="Background Image" class="background-image">
         <div class="content">
             <h1>BeatBuddy</h1>
-            <div class="center">
+            <div class="center two-columns">
                 <span class="custom-label">Enter your favorite song and artist and get recommended music!</span>
                 <span class="custom-label">Song Name:</span>
-                <input type="text" id="songInput" class="input" placeholder="Never Gonna Give You Up">
+                <input type="text" id="songInput" class="user-input" placeholder="Never Gonna Give You Up">
 
                 <span class="custom-label">Artist Name:</span>
-                <input type="text" id="artistInput" class="input" placeholder="Rick Astley">
+                <input type="text" id="artistInput" class="user-input" placeholder="Rick Astley">
 
                 <button id="submitButton" class="dataOne">Submit</button>
             </div>
         </div>
     </div>
 
-    <!-- Footer is locked to hidden, can be toggled in JS, once styled the elements are already bound to the JS to have a display of previous searches -->
+    <!-- The footer elements are bound to the JS to have a display of previous searches -->
     <!-- Future plans include making them clickable to research the query. Alternatively, we can make these selectable to find recommendations based on multiple songs and artists -->
-    <footer id="footer" class="hidden"> 
-        <h1 id="lastSearchSongOne"></h1>
-        <h1 id="lastSearchArtistOne"></h1>
-        <h1 id="lastSearchSongTwo"></h1>
-        <h1 id="lastSearchArtistTwo"></h1>
-        <h1 id="lastSearchSongThree"></h1>
-        <h1 id="lastSearchArtistThree"></h1>
+    <footer class="footer"> 
+        <h2 id="lastSearchSongOne"></h2>
+        <h2 id="lastSearchArtistOne"></h2>
+        <h2 id="lastSearchSongTwo"></h2>
+        <h2 id="lastSearchArtistTwo"></h2>
+        <h2 id="lastSearchSongThree"></h2>
+        <h2 id="lastSearchArtistThree"></h2>
     </footer>
     
 </body>
