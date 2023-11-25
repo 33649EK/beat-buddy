@@ -46,9 +46,16 @@ h1 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: rgba(5, 226, 237, 0.8);
+    background-color: rgba(5, 226, 237);
     padding: 9px;
     border-radius: 50px;
+}
+/* Styling for the instructions */
+.instructions {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: bold;
 }
 
 /* Styling for the labels */
