@@ -44,6 +44,11 @@ $('#submitButton').on('click', function () {
 // Add spotify API to read info stored in localstorage Data classes
 
 // Expand .click event to bring up either new HTML or append the HTML to display an aside of reccomendations
+document.getElementById("recommendationsButton").addEventListener('click', function() {
+    const asideElement = document.createElement('aside');
+    asideElement.innerHTML = '<p>NEEDS RECOMMENDATIONS.</p>';
+    document.body.appendChild(asideElement);
+});
 // Feed API userdata to make a list of reccommended songs and or artists
 // Depending on the information we can pull, create section for stats like "dancability" on searched terms
 
