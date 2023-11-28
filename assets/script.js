@@ -48,6 +48,8 @@ $('#submitButton').on('click', function () {
 // Depending on the information we can pull, create section for stats like "dancability" on searched terms
 
 // Add home button to go back to search page
-
+document.getElementById("homeButton").addEventListener("click", function (){
+    window.location.href = "ADD SEARCH PAGE HTML";
+});
 // Add an information API, like WIKI or another Song based, to display lyrics or information depending on the selected song or artist
 // Add a backup for when artist or song has no additional information 
