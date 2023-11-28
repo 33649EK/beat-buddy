@@ -1,11 +1,29 @@
+var keyYT = 'AIzaSyCUOBNEgtTOeYGL0ECkHMvZf7lR4breL8g'
+var artistInput = 'Rick Astley'
+var songInput = `Never Gonna Give You Up`
+var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
 
+fetch(apiUrl)
+.then(response => response.json())
+.then(data => {
+    var videos = data.items;
+    videos.forEach(video => {
+    var videoTitle = video.snippet.title;
+    var videoId = video.id.videoId;
+
+    var video = document.getElementById(`video`)
+    video.innerHTML = `
+        ${videoTitle}
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+    });
+})
+.catch(error => console.error('Error fetching data:', error));
 
 $('#submitButton').on('click', function () {
     var songInput = $('#songInput').val().trim();
     var artistInput = $('#artistInput').val().trim();
     console.log(songInput);
     console.log(artistInput);
-
     // Blocks to store, display and swap between the three saved user inputs
     // Look inside application and footer html in the console to see whats happening
     if ($(this).attr(`class`) === `dataOne`) {
@@ -38,6 +56,8 @@ $('#submitButton').on('click', function () {
     document.getElementById(`lastSearchArtistThree`).innerHTML = localStorage.artistThree }
     $(`#submitButton`).toggleClass(`dataThree dataOne`)}
 });
+
+
 
 // ## Current scaffold ##
 
