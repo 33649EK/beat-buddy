@@ -1,23 +1,23 @@
 var keyYT = "AIzaSyCUOBNEgtTOeYGL0ECkHMvZf7lR4breL8g";
-var artistInput = "Rick Astley";
+//var artistInput = "Rick Astley";
 var songInput = `Never Gonna Give You Up`;
-var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
+//var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
 
-fetch(apiUrl)
-  .then((response) => response.json())
-  .then((data) => {
-    var videos = data.items;
-    videos.forEach((video) => {
-      var videoTitle = video.snippet.title;
-      var videoId = video.id.videoId;
+//fetch(apiUrl)
+// .then((response) => response.json())
+// .then((data) => {
+//   var videos = data.items;
+//   videos.forEach((video) => {
+//     var videoTitle = video.snippet.title;
+//     var videoId = video.id.videoId;
 
-      var video = document.getElementById(`video`);
-      video.innerHTML = `
-        ${videoTitle}
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-    });
-  })
-  .catch((error) => console.error("Error fetching data:", error));
+//     var video = document.getElementById(`video`);
+//     video.innerHTML = `
+//       ${videoTitle}
+//       <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+//   });
+// })
+// .catch((error) => console.error("Error fetching data:", error));
 
 $("#submitButton").on("click", function () {
   var songInput = $("#songInput").val().trim();
@@ -64,7 +64,8 @@ $("#submitButton").on("click", function () {
     }
     $(`#submitButton`).toggleClass(`dataThree dataOne`);
   }
-  fetchBrainz(artistInput);
+  fetchArtistData(artistInput);
+  fetchSongData(songInput);
 });
 
 // ## Current scaffold ##
@@ -72,7 +73,7 @@ $("#submitButton").on("click", function () {
 // Add spotify API to read info stored in localstorage Data classes
 
 // Make the fetch request to MusicBrainz API
-function fetchBrainz(artistInput) {
+function fetchArtistData(artistInput) {
   const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${artistInput}&fmt=json&limit=5`;
   fetch(musicBrainzApiUrl)
     .then((response) => {
@@ -87,7 +88,9 @@ function fetchBrainz(artistInput) {
       if (data.artists && data.artists.length > 0) {
         const artist = data.artists[0]; // Assuming the first result is the most relevant
         const artistId = artist.id;
+
         fetchReleases(artistId);
+        fetchSingles(artistId);
         // Now, fetch additional details including genres using the artist's MusicBrainz ID
         const artistUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
         return fetch(artistUrl);
@@ -108,8 +111,8 @@ function fetchBrainz(artistInput) {
         const genres = artistGenres.genres.map((genre) => genre.name);
         console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
-        localStorage.setItem("genres",JSON.stringify(genres));
-        window.location.href = "display.html";
+        localStorage.setItem("genres", JSON.stringify(genres));
+        //window.location.href = "display.html";
       } else {
         console.log(`No genre information found for ${artistInput}`);
       }
@@ -120,8 +123,8 @@ function fetchBrainz(artistInput) {
 
   //Fetch latest album releases from the user submitted artist
   function fetchReleases(artistId) {
-    const releasesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=album&fmt=json`;
-    fetch(releasesUrl)
+    const albumsUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=album&fmt=json`;
+    fetch(albumsUrl)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -132,11 +135,44 @@ function fetchBrainz(artistInput) {
       })
       .then((releaseInfo) => {
         console.log(releaseInfo);
-        console.log(releaseInfo.releases.title);
+
+        if (releaseInfo.releases && releaseInfo.releases.length > 0) {
+          const albums = releaseInfo.releases.map((albums) => albums.title);
+          console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
+
+          localStorage.setItem("genres", JSON.stringify(albums));
+          //window.location.href = "display.html";
+        } else {
+          console.log(`No genre information found for ${artistInput}`);
+        }
       });
   }
+  //Fetches singles data
+  function fetchSingles(artistId) {
+    const singlesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=single&fmt=json`;
+    fetch(singlesUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((singlesInfo) => {
+        console.log(singlesInfo);
 
-  fetchSongData();
+        if (singlesInfo.releases && singlesInfo.releases.length > 0) {
+          const singles = singlesInfo.releases.map((singles) => singles.title);
+          console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
+
+          localStorage.setItem("genres", JSON.stringify(singles));
+          //window.location.href = "display.html";
+        } else {
+          console.log(`No genre information found for ${artistInput}`);
+        }
+      });
+  }
 }
 
 function fetchSongData() {}
@@ -154,8 +190,7 @@ function displayRecommendations(data) {
     //create a div for each rec
     var recommendationItem = document.createElement("div");
     recommendationItem.className = "recommendation-item";
-    recommendationItem.innerHTML =
-      "<p>" + track.name + " by " + track.artists[0].name + "<p>";
+    recommendationItem.innerHTML = `<p>${track.name} by ${track.artists[0].name}</p>`;
     recommendationsContainer.appendChild(recommendationItem);
   });
 }
