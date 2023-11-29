@@ -73,9 +73,7 @@ $("#submitButton").on("click", function () {
 
 // Make the fetch request to MusicBrainz API
 function fetchBrainz(artistInput) {
-  const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${encodeURIComponent(
-    artistInput
-  )}&fmt=json`;
+  const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${artistInput}&fmt=json&limit=5`;
   fetch(musicBrainzApiUrl)
     .then((response) => {
       if (!response.ok) {
@@ -89,11 +87,10 @@ function fetchBrainz(artistInput) {
       if (data.artists && data.artists.length > 0) {
         const artist = data.artists[0]; // Assuming the first result is the most relevant
         const artistId = artist.id;
-
+        fetchReleases(artistId);
         // Now, fetch additional details including genres using the artist's MusicBrainz ID
-        const artistDetailsUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
-
-        return fetch(artistDetailsUrl);
+        const artistUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
+        return fetch(artistUrl);
       } else {
         throw new Error("No results found for the given artist name.");
       }
@@ -104,10 +101,11 @@ function fetchBrainz(artistInput) {
       }
       return response.json();
     })
-    .then((artistDetails) => {
+    .then((artistGenres) => {
+      console.log(artistGenres);
       // Extract and log the genre information
-      if (artistDetails.genres && artistDetails.genres.length > 0) {
-        const genres = artistDetails.genres.map((genre) => genre.name);
+      if (artistGenres.genres && artistGenres.genres.length > 0) {
+        const genres = artistGenres.genres.map((genre) => genre.name);
         console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
       } else {
         console.log(`No genre information found for ${artistInput}`);
@@ -116,9 +114,32 @@ function fetchBrainz(artistInput) {
     .catch((error) => {
       console.error("Error during fetch:", error);
     });
+
+  //Fetch latest album releases from the user submitted artist
+  function fetchReleases(artistId) {
+    const releasesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=album&fmt=json`;
+    fetch(releasesUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((releaseInfo) => {
+        console.log(releaseInfo);
+        console.log(releaseInfo.releases.title);
+      });
+  }
+
+  fetchSongData();
 }
-// Expand .click event to bring up either new HTML or append the HTML to display an aside of reccomendations
-// Feed API userdata to make a list of reccommended songs and or artists
+
+function fetchSongData() {}
+// Add additional api calls to grab artist/song type, release date, country, potential event information.
+
+// Feed API userdata to make a list of recommended songs and or artists
 // Depending on the information we can pull, create section for stats like "dancability" on searched terms
 //Add function to create list items based off of what we pull from the api for recommended music
 function displayRecommendations(data) {
