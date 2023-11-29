@@ -1,5 +1,5 @@
 var keyYT = "AIzaSyCUOBNEgtTOeYGL0ECkHMvZf7lR4breL8g";
-//var artistInput = "Rick Astley";
+var artistInput = "Rick Astley";
 var songInput = `Never Gonna Give You Up`;
 var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
 
@@ -109,6 +109,9 @@ function fetchBrainz(artistInput) {
       if (artistDetails.genres && artistDetails.genres.length > 0) {
         const genres = artistDetails.genres.map((genre) => genre.name);
         console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
+
+        localStorage.setItem("genres",JSON.stringify(genres));
+        window.location.href = "display.html";
       } else {
         console.log(`No genre information found for ${artistInput}`);
       }
