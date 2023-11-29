@@ -65,7 +65,7 @@ $("#submitButton").on("click", function () {
     $(`#submitButton`).toggleClass(`dataThree dataOne`);
   }
   fetchArtistData(artistInput);
-  fetchSongData(songInput);
+  fetchSongData(songInput, artistInput);
 });
 
 // ## Current scaffold ##
@@ -175,7 +175,20 @@ function fetchArtistData(artistInput) {
   }
 }
 
-function fetchSongData() {}
+function fetchSongData(songInput, artistInput) {
+  const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=5&fmt=json`;
+
+  fetch(songDataUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Network response was not ok : ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then((songData) => {
+      console.log(songData);
+    });
+}
 // Add additional api calls to grab artist/song type, release date, country, potential event information.
 
 // Feed API userdata to make a list of recommended songs and or artists
