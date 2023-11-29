@@ -1,23 +1,23 @@
 var keyYT = "AIzaSyCUOBNEgtTOeYGL0ECkHMvZf7lR4breL8g";
-//var artistInput = "Rick Astley";
-var songInput = `Never Gonna Give You Up`;
-//var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
+// var artistInput = "Rick Astley";
+// var songInput = `Never Gonna Give You Up`;
+// var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
 
-//fetch(apiUrl)
-// .then((response) => response.json())
-// .then((data) => {
-//   var videos = data.items;
-//   videos.forEach((video) => {
-//     var videoTitle = video.snippet.title;
-//     var videoId = video.id.videoId;
+// fetch(apiUrl)
+//   .then((response) => response.json())
+//   .then((data) => {
+//     var videos = data.items;
+//     videos.forEach((video) => {
+//       var videoTitle = video.snippet.title;
+//       var videoId = video.id.videoId;
 
-//     var video = document.getElementById(`video`);
-//     video.innerHTML = `
+//       var video = document.getElementById(`video`);
+//       video.innerHTML = `
 //       ${videoTitle}
 //       <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-//   });
-// })
-// .catch((error) => console.error("Error fetching data:", error));
+//     });
+//   })
+//   .catch((error) => console.error("Error fetching data:", error));
 
 $("#submitButton").on("click", function () {
   var songInput = $("#songInput").val().trim();
@@ -74,57 +74,9 @@ $("#submitButton").on("click", function () {
 
 // Make the fetch request to MusicBrainz API
 function fetchArtistData(artistInput) {
-  const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${artistInput}&fmt=json&limit=5`;
-  fetch(musicBrainzApiUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      // Check if there are results
-      if (data.artists && data.artists.length > 0) {
-        const artist = data.artists[0]; // Assuming the first result is the most relevant
-        const artistId = artist.id;
-
-        fetchReleases(artistId);
-        fetchSingles(artistId);
-        // Now, fetch additional details including genres using the artist's MusicBrainz ID
-        const artistUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
-        return fetch(artistUrl);
-      } else {
-        throw new Error("No results found for the given artist name.");
-      }
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then((artistGenres) => {
-      console.log(artistGenres);
-      // Extract and log the genre information
-      if (artistGenres.genres && artistGenres.genres.length > 0) {
-        const genres = artistGenres.genres.map((genre) => genre.name);
-        console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
-
-        localStorage.setItem("genres", JSON.stringify(genres));
-        //window.location.href = "display.html";
-      } else {
-        console.log(`No genre information found for ${artistInput}`);
-      }
-    })
-    .catch((error) => {
-      console.error("Error during fetch:", error);
-    });
-
-  //Fetch latest album releases from the user submitted artist
-  function fetchReleases(artistId) {
-    const albumsUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=album&fmt=json`;
-    fetch(albumsUrl)
+  if (artistInput) {
+    const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${artistInput}&fmt=json&limit=5`;
+    fetch(musicBrainzApiUrl)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -133,24 +85,22 @@ function fetchArtistData(artistInput) {
         }
         return response.json();
       })
-      .then((releaseInfo) => {
-        console.log(releaseInfo);
+      .then((data) => {
+        console.log(data);
+        // Check if there are results
+        if (data.artists && data.artists.length > 0) {
+          const artist = data.artists[0]; // Assuming the first result is the most relevant
+          const artistId = artist.id;
 
-        if (releaseInfo.releases && releaseInfo.releases.length > 0) {
-          const albums = releaseInfo.releases.map((albums) => albums.title);
-          console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
-
-          localStorage.setItem("genres", JSON.stringify(albums));
-          //window.location.href = "display.html";
+          fetchReleases(artistId);
+          fetchSingles(artistId);
+          // Now, fetch additional details including genres using the artist's MusicBrainz ID
+          const artistUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
+          return fetch(artistUrl);
         } else {
-          console.log(`No genre information found for ${artistInput}`);
+          throw new Error("No results found for the given artist name.");
         }
-      });
-  }
-  //Fetches singles data
-  function fetchSingles(artistId) {
-    const singlesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=single&fmt=json`;
-    fetch(singlesUrl)
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -159,35 +109,97 @@ function fetchArtistData(artistInput) {
         }
         return response.json();
       })
-      .then((singlesInfo) => {
-        console.log(singlesInfo);
+      .then((artistGenres) => {
+        console.log(artistGenres);
+        // Extract and log the genre information
+        if (artistGenres.genres && artistGenres.genres.length > 0) {
+          const genres = artistGenres.genres.map((genre) => genre.name);
+          console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
-        if (singlesInfo.releases && singlesInfo.releases.length > 0) {
-          const singles = singlesInfo.releases.map((singles) => singles.title);
-          console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
-
-          localStorage.setItem("genres", JSON.stringify(singles));
-          //window.location.href = "display.html";
+          localStorage.setItem("genres", JSON.stringify(genres));
+          window.location.href = "display.html";
         } else {
           console.log(`No genre information found for ${artistInput}`);
         }
+      })
+      .catch((error) => {
+        console.error("Error during fetch:", error);
       });
+
+    //Fetch latest album releases from the user submitted artist
+    function fetchReleases(artistId) {
+      const albumsUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=album&fmt=json`;
+      fetch(albumsUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              `Network response was not ok: ${response.statusText}`
+            );
+          }
+          return response.json();
+        })
+        .then((releaseInfo) => {
+          console.log(releaseInfo);
+
+          if (releaseInfo.releases && releaseInfo.releases.length > 0) {
+            const albums = releaseInfo.releases.map((albums) => albums.title);
+            console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
+
+            localStorage.setItem("genres", JSON.stringify(albums));
+            //window.location.href = "display.html";
+          } else {
+            console.log(`No genre information found for ${artistInput}`);
+          }
+        });
+    }
+    //Fetches singles data
+    function fetchSingles(artistId) {
+      const singlesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=single&fmt=json`;
+      fetch(singlesUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              `Network response was not ok: ${response.statusText}`
+            );
+          }
+          return response.json();
+        })
+        .then((singlesInfo) => {
+          console.log(singlesInfo);
+
+          if (singlesInfo.releases && singlesInfo.releases.length > 0) {
+            const singles = singlesInfo.releases.map(
+              (singles) => singles.title
+            );
+            console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
+
+            localStorage.setItem("genres", JSON.stringify(singles));
+            // window.location.href = "display.html";
+          } else {
+            console.log(`No genre information found for ${artistInput}`);
+          }
+        });
+    }
   }
 }
 
 function fetchSongData(songInput, artistInput) {
-  const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=5&fmt=json`;
+  if (songInput) {
+    const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=5&fmt=json`;
 
-  fetch(songDataUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Network response was not ok : ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then((songData) => {
-      console.log(songData);
-    });
+    fetch(songDataUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok : ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((songData) => {
+        console.log(songData);
+      });
+  }
 }
 // Add additional api calls to grab artist/song type, release date, country, potential event information.
 
