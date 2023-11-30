@@ -70,8 +70,6 @@ $("#submitButton").on("click", function () {
 
 // ## Current scaffold ##
 
-// Add spotify API to read info stored in localstorage Data classes
-
 // Make the fetch request to MusicBrainz API
 function fetchArtistData(artistInput) {
   if (artistInput) {
@@ -128,7 +126,7 @@ function fetchArtistData(artistInput) {
 
     //Fetch latest album releases from the user submitted artist
     function fetchReleases(artistId) {
-      const albumsUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=album&fmt=json`;
+      const albumsUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=25&inc=recordings&type=album&fmt=json`;
       fetch(albumsUrl)
         .then((response) => {
           if (!response.ok) {
@@ -154,7 +152,7 @@ function fetchArtistData(artistInput) {
     }
     //Fetches singles data
     function fetchSingles(artistId) {
-      const singlesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=30&inc=recordings&type=single&fmt=json`;
+      const singlesUrl = `https://musicbrainz.org/ws/2/release?artist=${artistId}&limit=25&inc=recordings&type=single&fmt=json`;
       fetch(singlesUrl)
         .then((response) => {
           if (!response.ok) {
@@ -185,7 +183,7 @@ function fetchArtistData(artistInput) {
 
 function fetchSongData(songInput, artistInput) {
   if (songInput) {
-    const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=5&fmt=json`;
+    const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=15&fmt=json`;
 
     fetch(songDataUrl)
       .then((response) => {
