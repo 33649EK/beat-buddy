@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
   
   var numLog = parseInt(localStorage.getItem(`singleTick`)) || 1;
   var digit = [numLog]
@@ -56,6 +56,7 @@ $(document).ready(function () {
   // Append these to new html document
   // on click of old searches rerun dynamic append to make it seem like there multiple pages
 
+
   // Make the fetch request to MusicBrainz API
   function fetchArtistData(artistInput) {
     if (artistInput) {
@@ -74,6 +75,7 @@ $(document).ready(function () {
           if (artistID.artists && artistID.artists.length > 0) {
             const artist = artistID.artists[0]; // Assuming the first result is the most relevant
             const artistId = artist.id;
+
 
             fetchReleases(artistId);
             fetchSingles(artistId);
@@ -97,6 +99,7 @@ $(document).ready(function () {
             const genres = artistGenres.genres.map((genre) => genre.name);
             console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
+
             localStorage.setItem("genres", JSON.stringify(genres));
             window.location.href = "display.html";
           } else {
@@ -108,6 +111,7 @@ $(document).ready(function () {
           const errorElement = document.getElementById('error-message');
           errorElement.innerText = "Please submit a valid song/artist!";
         });
+
 
       //Fetch latest album releases from the user submitted artist
       function fetchReleases(artistId) {
@@ -124,12 +128,14 @@ $(document).ready(function () {
           .then((albumInfo) => {
             console.log(albumInfo);
 
+
             if (albumInfo.releases && albumInfo.releases.length > 0) {
               const albums = albumInfo.releases.map((albums) => albums.title);
               console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
 
+
               localStorage.setItem("genres", JSON.stringify(albums));
-              //window.location.href = "display.html";
+              window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
@@ -150,14 +156,16 @@ $(document).ready(function () {
           .then((singlesInfo) => {
             console.log(singlesInfo);
 
+
             if (singlesInfo.releases && singlesInfo.releases.length > 0) {
               const singles = singlesInfo.releases.map(
                 (singles) => singles.title
               );
               console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
 
+
               localStorage.setItem("genres", JSON.stringify(singles));
-              //window.location.href = "display.html";
+              window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
@@ -166,10 +174,12 @@ $(document).ready(function () {
     }
   }
 
+
   //fetches song metadata
   function fetchSongData(songInput, artistInput) {
     if (songInput) {
       const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=15&fmt=json`;
+
 
       fetch(songDataUrl)
         .then((response) => {
@@ -185,6 +195,7 @@ $(document).ready(function () {
   }
   // Add additional api calls to grab artist/song type, release date, country, potential event information.
 
+
   // Feed API userdata to make a list of recommended songs and or artists
   // Depending on the information we can pull, create section for stats like "dancability" on searched terms
   //Add function to create list items based off of what we pull from the api for recommended music
@@ -192,6 +203,7 @@ $(document).ready(function () {
     var recommendationsContainer = document.getElementById("lists-container");
     //Clear previous recs
     recommendationsContainer.innerHTML = "";
+
 
     data.tracks.forEach(function (track) {
       //create a div for each rec
@@ -207,7 +219,7 @@ $(document).ready(function () {
   });
   // Add an information API, like WIKI or another Song based, to display lyrics or information depending on the selected song or artist
   // Add a backup for when artist or song has no additional information
-  // keyYT = `AIzaSyAgWiqzoCXhcv5RwSkYLWgMQAGM7EqIFB8`
+   .catch((error) => console.error("Error fetching data:", error));
   // var artistInput = "Rick Astley";
   // var songInput = `Never Gonna Give You Up`;
   // var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
@@ -228,3 +240,5 @@ $(document).ready(function () {
   //   })
   //   .catch((error) => console.error("Error fetching data:", error));
 });
+
+

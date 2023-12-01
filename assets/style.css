@@ -7,6 +7,7 @@ body {
     background: linear-gradient(55deg, #231589 0%, rgb(81, 2, 67) 51%, rgb(176, 58, 155));
 }
 
+
 /* Styling for the main heading */
 h1 {
     font-size: 100px;
@@ -43,6 +44,7 @@ ul a {
     height: 100%;
 }
 
+
 /* Styling for the background image */
 .background-image {
     width: 100%;
@@ -52,6 +54,7 @@ ul a {
     top: 0;
     left: 0;
 }
+
 
 /* Centering content horizontally and vertically */
 .content {
@@ -64,6 +67,7 @@ ul a {
     max-width: 600px;
     margin: 0 auto;
 }
+
 
 /* Styling for the central content container */
 .center {
@@ -79,6 +83,7 @@ ul a {
     margin:auto;
 }
 
+
 /* Styling for the instructions */
 .instructions {
     display: block;
@@ -87,6 +92,7 @@ ul a {
     font-weight: bold;
 }
 
+
 /* Styling for the labels */
 .custom-label {
     display: block;
@@ -94,11 +100,13 @@ ul a {
     font-size: 20px;
 }
 
+
 /* Hidden Styling */
 .hidden {
     display: none;
     visibility: hidden;
 }
+
 
 .footer {
     font-family:'Electrolize', sans-serif;
@@ -109,7 +117,9 @@ ul a {
     color: #0ad0fd;
     padding: 10px;
 
+
 }
+
 
 /* Styling for the text input */
 .user-input {
@@ -120,6 +130,7 @@ ul a {
     border-radius: 30px;
 }
 
+
 /* Styling for the input placeholder */
 input::placeholder {
     color: #e2c5e4;
@@ -128,6 +139,7 @@ input::placeholder {
     font-style: italic;
     outline: none;
 }
+
 
 /* Styling for the submit button */
 button {
@@ -141,11 +153,12 @@ button {
     font-family: 'Electrolize', sans-serif;
 }
 
+
 /* width */
 ::-webkit-scrollbar {
     width: 20px;
 }
-  
+ 
 /* Track */
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 50px rgb(131, 9, 140);
@@ -154,27 +167,30 @@ button {
    
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #04718a; 
+    background: #04718a;
     border-radius: 10px;
 }
-  
+ 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #0ad0fd; 
+    background: #0ad0fd;
 }
 /* What is not covered by handle */
 ::-webkit-scrollbar-track-piece {
     background:rgb(81, 2, 67)
 }
 
+
 /* Media queries for responsiveness */
 @media screen and (max-width: 640px) {
     /* styles for small screens */
 }
 
+
 @media screen and (max-width: 768px) {
     /* styles for medium screens  */
 }
+
 
 @media screen and (max-width: 992px) {
     /* styles for large screens */
