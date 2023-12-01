@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,31 +14,37 @@
     <link rel="stylesheet" href="spectre-0.5.9/dist/spectre-icons.min.css">
 </head>
 
+
 <body>
     <div class="main-container">
-        <div class="content">
-            <button id="homeButton">Home</button>
+            <ul>
+                <a href="./history.html" id="history">History</a>
+            </ul>
+              <div>
+                <h3 id="error-message"></h3>
+            </div>
             <h1>BeatBuddy</h1>
             <div class="center">
                 <span class="instructions">Enter your favorite song and artist and get recommended music!</span>
                 <span class="custom-label">Song Name:</span>
                 <input type="text" id="songInput" class="user-input" placeholder="Never Gonna Give You Up">
 
+
                 <span class="custom-label">Artist Name:</span>
                 <input type="text" id="artistInput" class="user-input" placeholder="Rick Astley">
 
+
                 <button id="submitButton" class="dataOne">Submit</button>
             </div>
-        </div>
     </div>
-
     <div>
         <h1 id="videoStorage"></h1>
     </div>
 
+
     <!-- The footer elements are bound to the JS to have a display of previous searches -->
     <!-- Future plans include making them clickable to research the query. Alternatively, we can make these selectable to find recommendations based on multiple songs and artists -->
-    <footer class="footer"> 
+    <footer class="footer">
         <h2 id="lastSearchSong1"></h2>
         <h2 id="lastSearchArtist1"></h2>
         <h2 id="lastSearchSong2"></h2>
@@ -45,10 +52,11 @@
         <h2 id="lastSearchSong3"></h2>
         <h2 id="lastSearchArtist3"></h2>
     </footer>
-    
+   
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
 <script src="assets/script.js"></script>
+
 
 </html>

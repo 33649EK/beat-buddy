@@ -6,10 +6,12 @@ $(document).ready(function () {
       numLog[0] = numLog[0] + 1;
     }
 
+
     return numLog[0];
   }
   digit.push(numLog);
   console.log(numLog);
+
 
   // singleTick(numLog)
   $("#submitButton").on("click", function () {
@@ -18,31 +20,41 @@ $(document).ready(function () {
     console.log(songInput);
     console.log(artistInput);
 
+
     //Empty song and artist input field when submit button pressed
     $("#songInput").val("");
     $("#artistInput").val("");
 
+
     singleTick(numLog);
 
+
     $(this).attr("class", `class${digit[0]}`);
+
 
     if ($(this).attr("class") === `class${digit[0]}`) {
       localStorage.setItem(`song${digit[0]}`, songInput);
       localStorage.setItem(`artist${digit[0]}`, artistInput);
 
+
       var checkStorageForData = localStorage.getItem(`song${digit[0]}`);
+
 
       if (checkStorageForData) {
         $(`#footer`).toggleClass(`hidden custom-label`);
 
+
         document.getElementById(`lastSearchSong${digit[0]}`).innerHTML =
           localStorage.getItem(`song${digit[0]}`);
+
 
         document.getElementById(`lastSearchArtist${digit[0]}`).innerHTML =
           localStorage.getItem(`artist${digit[0]}`);
 
+
         $(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
       }
+
 
       console.log(numLog);
       fetchSongData(songInput, artistInput);
@@ -50,9 +62,11 @@ $(document).ready(function () {
     }
   });
 
+
   // Add Dynamic creation of Elements
   // Append these to new html document
   // on click of old searches rerun dynamic append to make it seem like there multiple pages
+
 
   // Make the fetch request to MusicBrainz API
   function fetchArtistData(artistInput) {
@@ -72,6 +86,7 @@ $(document).ready(function () {
           if (artistID.artists && artistID.artists.length > 0) {
             const artist = artistID.artists[0]; // Assuming the first result is the most relevant
             const artistId = artist.id;
+
 
             fetchReleases(artistId);
             fetchSingles(artistId);
@@ -95,15 +110,19 @@ $(document).ready(function () {
             const genres = artistGenres.genres.map((genre) => genre.name);
             console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
+
             localStorage.setItem("genres", JSON.stringify(genres));
-            //window.location.href = "display.html";
+            window.location.href = "display.html";
           } else {
             console.log(`No genre information found for ${artistInput}`);
           }
         })
         .catch((error) => {
           console.error("Error during fetch:", error);
+          const errorElement = document.getElementById('error-message');
+          errorElement.innerText = "Please submit a valid song/artist!";
         });
+
 
       //Fetch latest album releases from the user submitted artist
       function fetchReleases(artistId) {
@@ -120,12 +139,14 @@ $(document).ready(function () {
           .then((albumInfo) => {
             console.log(albumInfo);
 
+
             if (albumInfo.releases && albumInfo.releases.length > 0) {
               const albums = albumInfo.releases.map((albums) => albums.title);
               console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
 
+
               localStorage.setItem("genres", JSON.stringify(albums));
-              //window.location.href = "display.html";
+              window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
@@ -146,14 +167,16 @@ $(document).ready(function () {
           .then((singlesInfo) => {
             console.log(singlesInfo);
 
+
             if (singlesInfo.releases && singlesInfo.releases.length > 0) {
               const singles = singlesInfo.releases.map(
                 (singles) => singles.title
               );
               console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
 
+
               localStorage.setItem("genres", JSON.stringify(singles));
-              //window.location.href = "display.html";
+              window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
@@ -162,10 +185,12 @@ $(document).ready(function () {
     }
   }
 
+
   //fetches song metadata
   function fetchSongData(songInput, artistInput) {
     if (songInput) {
       const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=15&fmt=json`;
+
 
       fetch(songDataUrl)
         .then((response) => {
@@ -181,6 +206,7 @@ $(document).ready(function () {
   }
   // Add additional api calls to grab artist/song type, release date, country, potential event information.
 
+
   // Feed API userdata to make a list of recommended songs and or artists
   // Depending on the information we can pull, create section for stats like "dancability" on searched terms
   //Add function to create list items based off of what we pull from the api for recommended music
@@ -188,6 +214,7 @@ $(document).ready(function () {
     var recommendationsContainer = document.getElementById("lists-container");
     //Clear previous recs
     recommendationsContainer.innerHTML = "";
+
 
     data.tracks.forEach(function (track) {
       //create a div for each rec
@@ -208,6 +235,7 @@ $(document).ready(function () {
   var songInput = `Never Gonna Give You Up`;
   var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
 
+
   fetch(apiUrl)
     .then((response) => response.json())
     .then((data) => {
@@ -224,3 +252,5 @@ $(document).ready(function () {
     })
     .catch((error) => console.error("Error fetching data:", error));
 });
+
+

@@ -7,21 +7,46 @@ body {
     background: linear-gradient(55deg, #231589 0%, rgb(81, 2, 67) 51%, rgb(176, 58, 155));
 }
 
+
 /* Styling for the main heading */
 h1 {
     font-size: 100px;
-    margin-top: 10px;
+    margin-top: 0px;
     margin-bottom: 5px;
     color: #0ad0fd;
     text-shadow: 2px 2px 2px #0d024c;
     text-align: center;
 }
 
+
+#error-message {
+    font-size: xx-large;
+    color: red;
+    text-align: center;
+}
+
+
+ul {
+    display: flex;
+    background-color: #0d024c;
+    padding: 10px;
+    justify-items:left;
+    top: 0px;
+}
+
+
+ul a {
+    color: #d8dfe7;
+    padding: 14px 20px;
+    text-decoration: none;
+    justify-items: left;
+  }
 /* Container to hold the entire content */
 .main-container {
     position: relative;
     height: 100%;
 }
+
 
 /* Styling for the background image */
 .background-image {
@@ -32,6 +57,7 @@ h1 {
     top: 0;
     left: 0;
 }
+
 
 /* Centering content horizontally and vertically */
 .content {
@@ -45,6 +71,7 @@ h1 {
     margin: 0 auto;
 }
 
+
 /* Styling for the central content container */
 .center {
     display: flex;
@@ -52,11 +79,13 @@ h1 {
     align-items: center;
     justify-content: center;
     text-align: center;
+    max-width: 600px;
     background-color: rgba(5, 226, 237);
     padding: 9px;
     border-radius: 50px;
-    margin-bottom: 50px;
+    margin:auto;
 }
+
 
 /* Styling for the instructions */
 .instructions {
@@ -66,6 +95,7 @@ h1 {
     font-weight: bold;
 }
 
+
 /* Styling for the labels */
 .custom-label {
     display: block;
@@ -73,11 +103,13 @@ h1 {
     font-size: 20px;
 }
 
+
 /* Hidden Styling */
 .hidden {
     display: none;
     visibility: hidden;
 }
+
 
 .footer {
     font-family:'Electrolize', sans-serif;
@@ -88,7 +120,9 @@ h1 {
     color: #0ad0fd;
     padding: 10px;
 
+
 }
+
 
 /* Styling for the text input */
 .user-input {
@@ -99,6 +133,7 @@ h1 {
     border-radius: 30px;
 }
 
+
 /* Styling for the input placeholder */
 input::placeholder {
     color: #e2c5e4;
@@ -108,11 +143,12 @@ input::placeholder {
     outline: none;
 }
 
+
 /* Styling for the submit button */
 button {
     background-color: rgba(23,24,88,255);
     color: #e2c5e4;
-    padding: 25px 55px;
+    padding: 7px 55px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -120,11 +156,12 @@ button {
     font-family: 'Electrolize', sans-serif;
 }
 
+
 /* width */
 ::-webkit-scrollbar {
     width: 20px;
 }
-  
+ 
 /* Track */
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 50px rgb(131, 9, 140);
@@ -133,27 +170,30 @@ button {
    
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #04718a; 
+    background: #04718a;
     border-radius: 10px;
 }
-  
+ 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #0ad0fd; 
+    background: #0ad0fd;
 }
 /* What is not covered by handle */
 ::-webkit-scrollbar-track-piece {
     background:rgb(81, 2, 67)
 }
 
+
 /* Media queries for responsiveness */
 @media screen and (max-width: 640px) {
     /* styles for small screens */
 }
 
+
 @media screen and (max-width: 768px) {
     /* styles for medium screens  */
 }
+
 
 @media screen and (max-width: 992px) {
     /* styles for large screens */
