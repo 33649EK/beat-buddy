@@ -1,5 +1,5 @@
-$(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
-  
+$(document).ready(function () {
+
   var numLog = parseInt(localStorage.getItem(`singleTick`)) || 1;
   var digit = [numLog]
 
@@ -219,7 +219,7 @@ $(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
   });
   // Add an information API, like WIKI or another Song based, to display lyrics or information depending on the selected song or artist
   // Add a backup for when artist or song has no additional information
-   .catch((error) => console.error("Error fetching data:", error));
+  //  .catch((error) => console.error("Error fetching data:", error));
   // var artistInput = "Rick Astley";
   // var songInput = `Never Gonna Give You Up`;
   // var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
