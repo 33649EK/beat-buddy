@@ -10,13 +10,33 @@ body {
 /* Styling for the main heading */
 h1 {
     font-size: 100px;
-    margin-top: 10px;
+    margin-top: 0px;
     margin-bottom: 5px;
     color: #0ad0fd;
     text-shadow: 2px 2px 2px #0d024c;
     text-align: center;
 }
 
+#error-message {
+    font-size: xx-large;
+    color: red;
+    text-align: center;
+}
+
+ul {
+    display: flex;
+    background-color: #0d024c;
+    padding: 10px;
+    justify-items:left;
+    top: 0px;
+}
+
+ul a {
+    color: #d8dfe7;
+    padding: 14px 20px;
+    text-decoration: none;
+    justify-items: left;
+  }
 /* Container to hold the entire content */
 .main-container {
     position: relative;
@@ -52,10 +72,11 @@ h1 {
     align-items: center;
     justify-content: center;
     text-align: center;
+    max-width: 600px;
     background-color: rgba(5, 226, 237);
     padding: 9px;
     border-radius: 50px;
-    margin-bottom: 50px;
+    margin:auto;
 }
 
 /* Styling for the instructions */
@@ -112,7 +133,7 @@ input::placeholder {
 button {
     background-color: rgba(23,24,88,255);
     color: #e2c5e4;
-    padding: 25px 55px;
+    padding: 7px 55px;
     border: none;
     border-radius: 30px;
     cursor: pointer;

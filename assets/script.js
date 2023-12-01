@@ -105,6 +105,8 @@ $(document).ready(function () {
         })
         .catch((error) => {
           console.error("Error during fetch:", error);
+          const errorElement = document.getElementById('error-message');
+          errorElement.innerText = "Please submit a valid song/artist!";
         });
 
       //Fetch latest album releases from the user submitted artist
