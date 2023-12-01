@@ -203,24 +203,24 @@ $(document).ready(function () {
   });
   // Add an information API, like WIKI or another Song based, to display lyrics or information depending on the selected song or artist
   // Add a backup for when artist or song has no additional information
+  // keyYT = `AIzaSyAgWiqzoCXhcv5RwSkYLWgMQAGM7EqIFB8`
+  var artistInput = "Rick Astley";
+  var songInput = `Never Gonna Give You Up`;
+  var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
 
-  // var artistInput = "Rick Astley";
-  // var songInput = `Never Gonna Give You Up`;
-  // var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
-
-  // fetch(apiUrl)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     var videos = data.items;
-  //     videos.forEach((video) => {
-  //       var videoTitle = video.snippet.title;
-  //       var videoId = video.id.videoId;
-  //       var videoStorage = document.getElementById(`videoStorage`)
-  //       var createH3 = document.createElement(`h3`)
-  //       videoStorage.appendChild(createH3)
-  //       createH3.innerHTML =
-  //       `${videoTitle}<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-  //     });
-  //   })
-  //   .catch((error) => console.error("Error fetching data:", error));
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      var videos = data.items;
+      videos.forEach((video) => {
+        var videoTitle = video.snippet.title;
+        var videoId = video.id.videoId;
+        var videoStorage = document.getElementById(`videoStorage`)
+        var createH3 = document.createElement(`h3`)
+        videoStorage.appendChild(createH3)
+        createH3.innerHTML =
+        `${videoTitle}<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+      });
+    })
+    .catch((error) => console.error("Error fetching data:", error));
 });
