@@ -18,6 +18,10 @@ $(document).ready(function () {
     console.log(songInput);
     console.log(artistInput);
 
+    //Empty song and artist input field when submit button pressed
+    $("#songInput").val("");
+    $("#artistInput").val("");
+
     singleTick(numLog);
 
     $(this).attr("class", `class${digit[0]}`);
@@ -30,15 +34,19 @@ $(document).ready(function () {
 
       if (checkStorageForData) {
         $(`#footer`).toggleClass(`hidden custom-label`);
+
         document.getElementById(`lastSearchSong${digit[0]}`).innerHTML =
           localStorage.getItem(`song${digit[0]}`);
+
         document.getElementById(`lastSearchArtist${digit[0]}`).innerHTML =
           localStorage.getItem(`artist${digit[0]}`);
+
         $(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
       }
 
       console.log(numLog);
-      fetchBrainz(artistInput);
+      fetchSongData(songInput, artistInput);
+      fetchArtistData(artistInput);
     }
   });
 
@@ -50,36 +58,33 @@ $(document).ready(function () {
   function fetchArtistData(artistInput) {
     if (artistInput) {
       const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${artistInput}&fmt=json&limit=5`;
+      //Fetch artist Id number from musicBrainz
       fetch(musicBrainzApiUrl)
         .then((response) => {
           if (!response.ok) {
-            throw new Error(
-              `Network response was not ok: ${response.statusText}`
-            );
+            throw new Error(`Network response failed: ${response.statusText}`);
           }
           return response.json();
         })
-        .then((data) => {
-          console.log(data);
-          // Check if there are results
-          if (data.artists && data.artists.length > 0) {
-            const artist = data.artists[0]; // Assuming the first result is the most relevant
+        .then((artistID) => {
+          console.log(artistID);
+          // Check for results
+          if (artistID.artists && artistID.artists.length > 0) {
+            const artist = artistID.artists[0]; // Assuming the first result is the most relevant
             const artistId = artist.id;
 
             fetchReleases(artistId);
             fetchSingles(artistId);
-            // Now, fetch additional details including genres using the artist's MusicBrainz ID
-            const artistUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
-            return fetch(artistUrl);
+            // Fetch artist genres
+            const genreUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
+            return fetch(genreUrl);
           } else {
             throw new Error("No results found for the given artist name.");
           }
         })
         .then((response) => {
           if (!response.ok) {
-            throw new Error(
-              `Network response was not ok: ${response.statusText}`
-            );
+            throw new Error(`Network response failed: ${response.statusText}`);
           }
           return response.json();
         })
@@ -91,7 +96,7 @@ $(document).ready(function () {
             console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
             localStorage.setItem("genres", JSON.stringify(genres));
-            window.location.href = "display.html";
+            //window.location.href = "display.html";
           } else {
             console.log(`No genre information found for ${artistInput}`);
           }
@@ -107,16 +112,16 @@ $(document).ready(function () {
           .then((response) => {
             if (!response.ok) {
               throw new Error(
-                `Network response was not ok: ${response.statusText}`
+                `Network response failed: ${response.statusText}`
               );
             }
             return response.json();
           })
-          .then((releaseInfo) => {
-            console.log(releaseInfo);
+          .then((albumInfo) => {
+            console.log(albumInfo);
 
-            if (releaseInfo.releases && releaseInfo.releases.length > 0) {
-              const albums = releaseInfo.releases.map((albums) => albums.title);
+            if (albumInfo.releases && albumInfo.releases.length > 0) {
+              const albums = albumInfo.releases.map((albums) => albums.title);
               console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
 
               localStorage.setItem("genres", JSON.stringify(albums));
@@ -133,7 +138,7 @@ $(document).ready(function () {
           .then((response) => {
             if (!response.ok) {
               throw new Error(
-                `Network response was not ok: ${response.statusText}`
+                `Network response failed: ${response.statusText}`
               );
             }
             return response.json();
@@ -148,7 +153,7 @@ $(document).ready(function () {
               console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
 
               localStorage.setItem("genres", JSON.stringify(singles));
-              // window.location.href = "display.html";
+              //window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
@@ -157,6 +162,7 @@ $(document).ready(function () {
     }
   }
 
+  //fetches song metadata
   function fetchSongData(songInput, artistInput) {
     if (songInput) {
       const songDataUrl = `https://musicbrainz.org/ws/2/recording?query=${songInput}&artist=${artistInput}&limit=15&fmt=json`;
@@ -164,9 +170,7 @@ $(document).ready(function () {
       fetch(songDataUrl)
         .then((response) => {
           if (!response.ok) {
-            throw new Error(
-              `Network response was not ok : ${response.statusText}`
-            );
+            throw new Error(`Network response failed: ${response.statusText}`);
           }
           return response.json();
         })
@@ -194,7 +198,7 @@ $(document).ready(function () {
     });
   }
   // Add home button to go back to search page
-  document.getElementById("homeButton").addEventListener("click", function () {
+  $("#homeButton").on("click", function () {
     window.location.href = "index.html";
   });
   // Add an information API, like WIKI or another Song based, to display lyrics or information depending on the selected song or artist
