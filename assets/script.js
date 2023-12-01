@@ -96,7 +96,7 @@ $(document).ready(function () {
             console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
             localStorage.setItem("genres", JSON.stringify(genres));
-            //window.location.href = "display.html";
+            window.location.href = "display.html";
           } else {
             console.log(`No genre information found for ${artistInput}`);
           }
@@ -125,7 +125,7 @@ $(document).ready(function () {
               console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
 
               localStorage.setItem("genres", JSON.stringify(albums));
-              //window.location.href = "display.html";
+              window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
@@ -153,7 +153,7 @@ $(document).ready(function () {
               console.log(`Singles for ${artistInput}: ${singles.join(", ")}`);
 
               localStorage.setItem("genres", JSON.stringify(singles));
-              //window.location.href = "display.html";
+              window.location.href = "display.html";
             } else {
               console.log(`No genre information found for ${artistInput}`);
             }
