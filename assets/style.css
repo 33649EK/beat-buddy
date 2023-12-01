@@ -18,13 +18,11 @@ h1 {
     text-align: center;
 }
 
-
 #error-message {
     font-size: xx-large;
     color: red;
     text-align: center;
 }
-
 
 ul {
     display: flex;
@@ -33,7 +31,6 @@ ul {
     justify-items:left;
     top: 0px;
 }
-
 
 ul a {
     color: #d8dfe7;
