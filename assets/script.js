@@ -1,7 +1,9 @@
+//fire on DOM load
 $(document).ready(function () {
   var numLog = parseInt(localStorage.getItem(`singleTick`)) || 1;
-  var digit = [numLog];
+  var digit = [numLog]; //make an array with current log count
 
+// function to incremement log count and update local storage
   function singleTick() {
     numLog++;
     localStorage.setItem(`singleTick`, JSON.stringify(numLog));
@@ -9,28 +11,35 @@ $(document).ready(function () {
     return numLog;
   }
 
-  // singleTick(numLog)
+  // singleTick(numLog) Event handler for submit button
   $("#submitButton").on("click", function () {
+    //get input values and trim extra space
     var songInput = $("#songInput").val().trim();
     var artistInput = $("#artistInput").val().trim();
+    //log input values
     console.log(songInput);
     console.log(artistInput);
 
-    //Empty song and artist input field when submit button pressed
+    //empty input fields
     $("#songInput").val("");
     $("#artistInput").val("");
 
+    //update class and localStorage based on the log count
     singleTick();
     console.log(numLog);
+    console.log(this);
     $(this).attr("class", `class${digit[0]}`);
 
+    //set local storage for each user entry with song and artist entered
     if ($(this).attr("class") === `class${digit[0]}`) {
       localStorage.setItem(`song${digit[0]}`, songInput);
       localStorage.setItem(`artist${digit[0]}`, artistInput);
 
+      //checks if there is data in localStorage for the current log
       var checkStorageForData = localStorage.getItem(`song${digit[0]}`);
 
       if (checkStorageForData) {
+        //toggle footer visibility if there is history data
         $(`#footer`).toggleClass(`hidden custom-label`);
 
         // document.getElementById(`lastSearchSong${digit[0]}`).innerHTML =
@@ -41,19 +50,20 @@ $(document).ready(function () {
 
         $(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
       }
+      //add log count to the array and log it
       digit.push(numLog);
       console.log(numLog);
+      //fetch data from apis
       fetchSongData(songInput, artistInput);
       fetchArtistData(artistInput);
     }
   });
 
-  // Lemme Push the files pls
   // Add Dynamic creation of Elements
   // Append these to new html document
   // on click of old searches rerun dynamic append to make it seem like there multiple pages
 
-  // Make the fetch request to MusicBrainz API
+  // Make the fetch request to MusicBrainz API for entered artist
   function fetchArtistData(artistInput) {
     if (artistInput) {
       const musicBrainzApiUrl = `https://musicbrainz.org/ws/2/artist/?query=${artistInput}&fmt=json&limit=5`;
@@ -61,8 +71,10 @@ $(document).ready(function () {
       fetch(musicBrainzApiUrl)
         .then((response) => {
           if (response.ok === false) {
+            //display error if api data is not successfully fetched
             throw Error(`Failed to fetch data: ${response.statusText}`);
           }
+          //otherwise, return the response in json format
           return response.json();
         })
         .then((artistID) => {
@@ -78,6 +90,7 @@ $(document).ready(function () {
             const genreUrl = `https://musicbrainz.org/ws/2/artist/${artistId}?inc=genres&fmt=json`;
             return fetch(genreUrl);
           } else {
+            //console log error if matching song/artist name are not found
             throw Error("No results found for the given artist name.");
           }
         })
@@ -123,7 +136,7 @@ $(document).ready(function () {
         })
         .catch((error) => {
           console.error("Error:", error);
-          $("#error-message").text("Please submit a valid song/artist!");
+          // $("#error-message").text("Please submit a valid song/artist!");
         });
 
       //Fetch latest album releases from the user submitted artist
@@ -241,6 +254,7 @@ $(document).ready(function () {
 
   // Feed API userdata to make a list of recommended songs and or artists
   // Depending on the information we can pull, create section for stats like "dancability" on searched terms
+
   //Add function to create list items based off of what we pull from the api for recommended music
   function displayRecommendations(data) {
     var recommendationsContainer = document.getElementById("lists-container");
