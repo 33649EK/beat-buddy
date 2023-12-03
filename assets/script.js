@@ -1,14 +1,14 @@
 //fire on DOM load
 $(document).ready(function () {
-  var keyYT = `AIzaSyAgWiqzoCXhcv5RwSkYLWgMQAGM7EqIFB8`
+  var keyYT = `AIzaSyC348gfVsQumQjlTUFmjmsL3mC1_nC4-IU`
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
 
-  // Function to check localStorage for data and siplay on history page
-  function populateHistory() {
+  // Function to check localStorage for data and diplay on history page
+  function displayHistory() {
     var historyList = document.getElementById('history');
-    console.log("populateHistory() has fired");  
+    console.log("displayHistory() has fired");  
   
     if (historyList) {
       for (var i = 20; i > 0; i--) {
@@ -29,7 +29,7 @@ $(document).ready(function () {
   }
   
   if (document.URL.includes('history.html')) {
-    populateHistory();
+    displayHistory();
   }
 
   // Clear history button, not functional, its not being seen for some reason, no console log when clicked
@@ -122,56 +122,74 @@ $(document).ready(function () {
       console.log("Current Song:", currentSongFetch);
       console.log("Current Artist:", currentArtistFetch);
 
-    
-    console.log(`song${digit[0]}`)
 
-    var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=song${currentSongFetch}music-artist${currentArtistFetch}&maxResults=1&type=video&key=${keyYT}`;
+// Thumbnail Generation for Youtube 
+function createThumbnail(videoId, title) {
+  var thumbnailContainer = document.createElement('div');
+  thumbnailContainer.classList.add('youtubeDynamics');
 
-    fetch(apiUrl)
+  // Create thumbnail image
+  var thumbnailImg = document.createElement('img');
+  thumbnailImg.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+  thumbnailImg.width = 560;
+  thumbnailImg.height = 315;
+  thumbnailContainer.appendChild(thumbnailImg);
+
+  // Create title element
+  var titleElement = document.createElement('h3');
+  titleElement.textContent = title;
+  thumbnailContainer.appendChild(titleElement);
+
+  // Add click event to open video on YouTube
+  thumbnailContainer.addEventListener('click', function () {
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+  });
+
+  return thumbnailContainer;
+}
+
+    var heroApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=song${currentSongFetch}music-artist${currentArtistFetch}&maxResults=1&type=video&key=${keyYT}`;
+
+    fetch(heroApiUrl)
     .then((response) => response.json())
     .then((data) => {
       var videos = data.items;
-      console.log("currentSong:", currentSongFetch);
-      console.log("currentArtist:", currentArtistFetch);
       videos.forEach((video) => {
-        console.log(`repsone`, data)
         var videoTitle = `${currentSongFetch} by ${currentArtistFetch}`
         var videoId = video.id.videoId;
         var videoStorage = document.getElementById(`hero`)
-        var createH3 = document.createElement(`h3`)
         var createTitle = document.createElement(`h1`)
         createTitle.id = `titleCard`
         videoStorage.appendChild(createTitle)
-        videoStorage.appendChild(createH3)
+        var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+        videoStorage.appendChild(thumbnailElement)
         createTitle.innerHTML = `${videoTitle}`
-        createH3.innerHTML =
-        `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
       });
     })
     .catch((error) => console.error("Error fetching data:", error));
-    var genreBreak = localStorage.getItem(`genres`)
+
+    // var genreBreak = localStorage.getItem(`newGenres`)
+    var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`
     console.log(genreBreak)
 
-    var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=songs-that-are${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
-
-    fetch(apiUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      var videos = data.items;
-      console.log("currentSong:", currentSongFetch);
-      console.log("currentArtist:", currentArtistFetch);
-      videos.forEach((video) => {
-        console.log(`repsone`, data)
-        var videoId = video.id.videoId;
-        var recommendationsStorage = document.getElementById(`recommends`)
-        var createH3 = document.createElement(`h3`)
-        var createTitle = document.createElement(`h1`)
-        createTitle.id = `titleCard`
-        recommendationsStorage.appendChild(createH3)
-        createH3.innerHTML =
-        `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-      });
-    })
+    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
+    
+    fetch(apiUrlRecommendations)
+      .then((response) => response.json())
+      .then((data) => {
+        var videos = data.items;
+    
+        var recommendationsStorage = document.getElementById('recommends');
+    
+        videos.forEach((video) => {
+          var videoId = video.id.videoId;
+          
+          // Create thumbnail with title and link
+          var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+          recommendationsStorage.appendChild(thumbnailElement);
+        });
+      })
+      .catch((error) => console.error("Error fetching recommendations data:", error));
 
 
 
@@ -226,6 +244,7 @@ $(document).ready(function () {
             //Creates new genre string
             var newGenres = `${artistInput}:${genres}`;
             console.log(newGenres);
+            localStorage.setItem(`newGenres`, newGenres)
 
             var ifExists = localStorageGenres.includes(newGenres);
             //Does not add new genre string if it already exists within localstorage array
@@ -384,4 +403,3 @@ $(document).ready(function () {
     window.location.href = "index.html";
   });
 });
-

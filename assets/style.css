@@ -162,8 +162,8 @@ button {
     font-size: small;
 }
 
-#histoyList {
-    color: white;
+#youtubeDynamics {
+    cursor: pointer;
 }
 
 /* .hide {
