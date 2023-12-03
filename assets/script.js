@@ -4,6 +4,8 @@ $(document).ready(function () {
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
+
+  // Function to check localStorage for data and siplay on history page
   function populateHistory() {
     var historyList = document.getElementById('history');
     console.log("populateHistory() has fired");  
@@ -30,7 +32,7 @@ $(document).ready(function () {
     populateHistory();
   }
 
-  
+  // Clear history button, not functional, its not being seen for some reason, no console log when clicked
 //   if (document.URL.includes('display.html')) {
 //     var clearBTN = document.getElementById('hide');
 //     console.log(clearBTN)
@@ -360,10 +362,6 @@ $(document).ready(function () {
         });
     }
   }
-  // Add additional api calls to grab artist/song type, release date, country, potential event information.
-
-  // Feed API userdata to make a list of recommended songs and or artists
-  // Depending on the information we can pull, create section for stats like "dancability" on searched terms
 
   //Add function to create list items based off of what we pull from the api for recommended music
   function displayRecommendations(data) {
