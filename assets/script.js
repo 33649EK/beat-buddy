@@ -20,8 +20,11 @@ $(document).ready(function () {
   
         if (song !== null && artist !== null) {
           var listItem = document.createElement('li');
-          listItem.classList.add(`historyList`)
-          listItem.textContent = `Song: ${song}, Artist: ${artist}`;
+          listItem.classList.add(`historyList`);
+          var card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `"${song}" by ${artist}`;
+          listItem.appendChild(card);
           historyList.appendChild(listItem);
         }
       }
@@ -155,7 +158,7 @@ function createThumbnail(videoId, title) {
     .then((data) => {
       var videos = data.items;
       videos.forEach((video) => {
-        var videoTitle = `${currentSongFetch} by ${currentArtistFetch}`
+        var videoTitle = `"${currentSongFetch}' by ${currentArtistFetch}`
         var videoId = video.id.videoId;
         var videoStorage = document.getElementById(`hero`)
         var createTitle = document.createElement(`h1`)
@@ -267,7 +270,7 @@ function createThumbnail(videoId, title) {
         })
         .catch((error) => {
           console.error("Error:", error);
-          // $("#error-message").text("Please submit a valid song/artist!");
+          $("#error-message").text("Please submit a valid song/artist!");
         });
 
       //Fetch latest album releases from the user submitted artist
