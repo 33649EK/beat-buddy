@@ -1,5 +1,49 @@
 //fire on DOM load
 $(document).ready(function () {
+  var keyYT = `AIzaSyAgWiqzoCXhcv5RwSkYLWgMQAGM7EqIFB8`
+  var songInput = localStorage.getItem(`songInput`);
+  var artistInput = localStorage.getItem(`artistInput`);
+
+  function populateHistory() {
+    var historyList = document.getElementById('history');
+    console.log("populateHistory() has fired");  
+  
+    if (historyList) {
+      for (var i = 20; i > 0; i--) {
+        var searchSong = `song${i}`
+        var searchArtist = `artist${i}`;
+  
+        var song = localStorage.getItem(searchSong);
+        var artist = localStorage.getItem(searchArtist);
+  
+        if (song !== null && artist !== null) {
+          var listItem = document.createElement('li');
+          listItem.classList.add(`historyList`)
+          listItem.textContent = `Song: ${song}, Artist: ${artist}`;
+          historyList.appendChild(listItem);
+        }
+      }
+    }
+  }
+  
+  if (document.URL.includes('history.html')) {
+    populateHistory();
+  }
+
+  
+//   if (document.URL.includes('display.html')) {
+//     var clearBTN = document.getElementById('hide');
+//     console.log(clearBTN)
+
+//     clearBTN.addEventListener('click', function () {
+//         console.log('Clear history button clicked');
+//         localStorage.clear();
+//     });
+// }
+  
+  
+
+
   var numLog = parseInt(localStorage.getItem(`singleTick`)) || 1;
   var digit = [numLog]; //make an array with current log count
 
@@ -14,11 +58,18 @@ $(document).ready(function () {
   // singleTick(numLog) Event handler for submit button
   $("#submitButton").on("click", function () {
     //get input values and trim extra space
-    var songInput = $("#songInput").val().trim();
-    var artistInput = $("#artistInput").val().trim();
+    var currentSong = $("#songInput").val().trim();
+    var currentArtist = $("#artistInput").val().trim();
+    localStorage.setItem(`songInput`, currentSong);
+    localStorage.setItem(`artistInput`, currentArtist);
+    var songInput = localStorage.getItem(`songInput`);
+    var artistInput = localStorage.getItem(`artistInput`);
+
+    
     //log input values
     console.log(songInput);
     console.log(artistInput);
+
 
     //empty input fields
     $("#songInput").val("");
@@ -28,12 +79,19 @@ $(document).ready(function () {
     singleTick();
     console.log(numLog);
     console.log(this);
+
+    
+
+
     $(this).attr("class", `class${digit[0]}`);
 
     //set local storage for each user entry with song and artist entered
     if ($(this).attr("class") === `class${digit[0]}`) {
       localStorage.setItem(`song${digit[0]}`, songInput);
       localStorage.setItem(`artist${digit[0]}`, artistInput);
+
+
+
 
       //checks if there is data in localStorage for the current log
       var checkStorageForData = localStorage.getItem(`song${digit[0]}`);
@@ -42,26 +100,78 @@ $(document).ready(function () {
         //toggle footer visibility if there is history data
         $(`#footer`).toggleClass(`hidden custom-label`);
 
-        // document.getElementById(`lastSearchSong${digit[0]}`).innerHTML =
-        //   localStorage.getItem(`song${digit[0]}`);
-
-        // document.getElementById(`lastSearchArtist${digit[0]}`).innerHTML =
-        //   localStorage.getItem(`artist${digit[0]}`);
-
         $(`#submitButton`).toggleClass(`data${digit[0]} data${digit[0] + 1}`);
       }
+   
       //add log count to the array and log it
       digit.push(numLog);
       console.log(numLog);
-      //fetch data from apis
-      fetchSongData(songInput, artistInput);
-      fetchArtistData(artistInput);
+      window.location.href = "display.html";
     }
   });
 
-  // Add Dynamic creation of Elements
-  // Append these to new html document
-  // on click of old searches rerun dynamic append to make it seem like there multiple pages
+
+  if (document.URL.includes(`display.html`)) {
+          //fetch data from apis
+          fetchSongData(songInput, artistInput);
+          fetchArtistData(artistInput);
+    var currentSongFetch = localStorage.getItem(`song${digit[0]-1}`)
+    var currentArtistFetch = localStorage.getItem(`artist${digit[0]-1}`)
+      console.log("Current Song:", currentSongFetch);
+      console.log("Current Artist:", currentArtistFetch);
+
+    
+    console.log(`song${digit[0]}`)
+
+    var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=song${currentSongFetch}music-artist${currentArtistFetch}&maxResults=1&type=video&key=${keyYT}`;
+
+    fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      var videos = data.items;
+      console.log("currentSong:", currentSongFetch);
+      console.log("currentArtist:", currentArtistFetch);
+      videos.forEach((video) => {
+        console.log(`repsone`, data)
+        var videoTitle = `${currentSongFetch} by ${currentArtistFetch}`
+        var videoId = video.id.videoId;
+        var videoStorage = document.getElementById(`hero`)
+        var createH3 = document.createElement(`h3`)
+        var createTitle = document.createElement(`h1`)
+        createTitle.id = `titleCard`
+        videoStorage.appendChild(createTitle)
+        videoStorage.appendChild(createH3)
+        createTitle.innerHTML = `${videoTitle}`
+        createH3.innerHTML =
+        `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+      });
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+    var genreBreak = localStorage.getItem(`genres`)
+    console.log(genreBreak)
+
+    var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=songs-that-are${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
+
+    fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      var videos = data.items;
+      console.log("currentSong:", currentSongFetch);
+      console.log("currentArtist:", currentArtistFetch);
+      videos.forEach((video) => {
+        console.log(`repsone`, data)
+        var videoId = video.id.videoId;
+        var recommendationsStorage = document.getElementById(`recommends`)
+        var createH3 = document.createElement(`h3`)
+        var createTitle = document.createElement(`h1`)
+        createTitle.id = `titleCard`
+        recommendationsStorage.appendChild(createH3)
+        createH3.innerHTML =
+        `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+      });
+    })
+
+
 
   // Make the fetch request to MusicBrainz API for entered artist
   function fetchArtistData(artistInput) {
@@ -157,7 +267,7 @@ $(document).ready(function () {
               //console.log(`Albums for ${artistInput}: ${albums.join(", ")}`);
 
               localStorage.setItem("albums", JSON.stringify(albums));
-              window.location.href = "display.html";
+              // window.location.href = "display.html";
             } else {
               console.log(`No album information for ${artistInput}`);
             }
@@ -269,30 +379,11 @@ $(document).ready(function () {
       recommendationsContainer.appendChild(recommendationItem);
     });
   }
+}
+
   // Add home button to go back to search page
   $("#homeButton").on("click", function () {
     window.location.href = "index.html";
   });
-  // Add an information API, like WIKI or another Song based, to display lyrics or information depending on the selected song or artist
-  // Add a backup for when artist or song has no additional information
-  //  .catch((error) => console.error("Error fetching data:", error));
-  // var artistInput = "Rick Astley";
-  // var songInput = `Never Gonna Give You Up`;
-  // var apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artistInput}music${songInput}&maxResults=3&type=video&key=${keyYT}`;
-
-  // fetch(apiUrl)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     var videos = data.items;
-  //     videos.forEach((video) => {
-  //       var videoTitle = video.snippet.title;
-  //       var videoId = video.id.videoId;
-  //       var videoStorage = document.getElementById(`videoStorage`)
-  //       var createH3 = document.createElement(`h3`)
-  //       videoStorage.appendChild(createH3)
-  //       createH3.innerHTML =
-  //       `${videoTitle}<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-  //     });
-  //   })
-  //   .catch((error) => console.error("Error fetching data:", error));
 });
+
