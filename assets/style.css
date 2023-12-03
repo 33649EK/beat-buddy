@@ -1,8 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+
 /* Reset the default margin */
 body {
     font-family: 'Electrolize', sans-serif;
-    /* margin: 0; */
-    /* overflow: hidden; */
     height: 100vh;
     background: linear-gradient(55deg, #231589 0%, rgb(81, 2, 67) 51%, rgb(176, 58, 155));
     background-repeat: no-repeat;
@@ -18,6 +20,10 @@ h1 {
     color: #0ad0fd;
     text-shadow: 2px 2px 2px #0d024c;
     text-align: center;
+}
+
+h3 {
+    cursor: pointer;
 }
 
 #error-message {
@@ -118,10 +124,7 @@ ul a {
     margin-top: 20px;
     color: #0ad0fd;
     padding: 10px;
-
-
 }
-
 
 /* Styling for the text input */
 .user-input {
@@ -159,6 +162,9 @@ button {
     align-items: center;
 }
 
+#hero {
+    padding: 20px;
+}
 .titleCard {
     text-align: center;
     font-size: small;
@@ -166,6 +172,25 @@ button {
 
 #youtubeDynamics {
     cursor: pointer;
+}
+
+#recommends {
+    margin-top: 100px;
+}
+
+.content-box {
+    flex: 1;
+    box-sizing: border-box;
+    height:100px;
+    padding: 20px;
+    margin: 10px;
+    overflow: auto;
+    background-color: #0d024c;
+}
+
+.container {
+    display: flex;
+    width: 100%;
 }
 
 #history {
@@ -182,7 +207,7 @@ button {
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
-    background-color: #04718a;
+    background-color: #04718a !important;
     margin-bottom: 10px;
   }
 /* .hide {
