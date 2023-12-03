@@ -153,6 +153,27 @@ button {
     font-family: 'Electrolize', sans-serif;
 }
 
+.hero {
+    align-items: center;
+}
+
+.titleCard {
+    text-align: center;
+    font-size: small;
+}
+
+#youtubeDynamics {
+    cursor: pointer;
+}
+
+/* .hide {
+    display: none;
+}
+
+.clearHistory {
+    float: right;
+} */
+
 
 /* width */
 ::-webkit-scrollbar {
