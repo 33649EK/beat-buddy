@@ -82,7 +82,7 @@ $(document).ready(function () {
     //log input values
     console.log(songInput);
     console.log(artistInput);
-
+    fetchArtistData(artistInput);
     // Switch off History Mode
     localStorage.setItem(`historyCheck`, `0`);
 
@@ -175,10 +175,11 @@ $(document).ready(function () {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
+    // var genreBreak = localStorage.getItem(`newGenres`);
     var genreBreak = localStorage.getItem(`newGenres`);
     // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
     console.log(genreBreak);
-
+s
     var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
 
     fetch(apiUrlRecommendations)
@@ -237,7 +238,7 @@ $(document).ready(function () {
   ) {
     //fetch data from apis
     fetchSongData(songInput, artistInput);
-    fetchArtistData(artistInput);
+
     var currentSongFetch = localStorage.getItem(`song${digit[0] - 1}`);
     var currentArtistFetch = localStorage.getItem(`artist${digit[0] - 1}`);
     console.log("Current Song:", currentSongFetch);
