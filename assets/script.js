@@ -320,11 +320,16 @@ $(document).ready(function () {
             }
             return response.json();
           })
-          .then((artistGenres) => {
-            console.log(artistGenres);
+          .then((artistInformation) => {
+            console.log(artistInformation);
             // Extract and log the genre information
-            if (artistGenres.genres && artistGenres.genres.length > 0) {
-              const genres = artistGenres.genres.map((genre) => genre.name);
+            if (
+              artistInformation.genres &&
+              artistInformation.genres.length > 0
+            ) {
+              const genres = artistInformation.genres.map(
+                (genre) => genre.name
+              );
               // console.log(`Genres for ${artistInput}: ${genres.join(", ")}`);
 
               const existingGenres = localStorage.getItem("genres");
@@ -355,7 +360,26 @@ $(document).ready(function () {
             } else {
               console.log(`No genre information for ${artistInput}`);
             }
+            // Grabs Location information for the given artist
+            if (
+              artistInformation.area.name &&
+              artistInformation.area.name.length > 0
+            ) {
+              const location = artistInformation.area.name;
+              console.log(location);
+            } else {
+              console.log(`No location infromation for ${artistInput}`);
+            }
           })
+          // .then((artistInformation) => {
+          //   if (
+          //     artistInformation.area.name &&
+          //     artistInformation.area.name.length > 0
+          //   ) {
+          //     const location = artistInformation.area.name;
+          //     console.log(location);
+          //   }
+          // })
           .catch((error) => {
             console.error("Error:", error);
             $("#error-message").text("Please submit a valid song/artist!");
