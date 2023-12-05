@@ -19,7 +19,7 @@ $(document).ready(function () {
 
         if (song !== null && artist !== null) {
           var listItem = document.createElement("li");
-          listItem.classList.add(`historyList`);
+          listItem.classList.add(`song${i}`, `artist${i}`, `historyList`);
           var card = document.createElement("div");
           card.classList.add("card");
           card.innerHTML = `"${song}" by ${artist}`;
@@ -32,17 +32,30 @@ $(document).ready(function () {
 
   if (document.URL.includes("history.html")) {
     displayHistory();
+
+    $(".historyList").on("click", function () {
+      var historyData = this.classList;
+      var historyArray = Array.from(historyData);
+      console.log(historyArray);
+      var historySong = localStorage.getItem(historyArray[0]);
+      var historyArtist = localStorage.getItem(historyArray[1]);
+      localStorage.setItem(`songInputHistory`, historySong);
+      localStorage.setItem(`artistInputHistory`, historyArtist);
+      localStorage.setItem(`historyCheck`, `1`);
+
+      window.location.href = "display.html";
+    });
   }
 
   // Clear history button, not functional, its not being seen for some reason, no console log when clicked
-  // if (document.URL.includes("display.html")) {
-  //   var clearBTN = document.getElementById("hide");
-  //   console.log(clearBTN);
+  //   if (document.URL.includes('display.html')) {
+  //     var clearBTN = document.getElementById('hide');
+  //     console.log(clearBTN)
 
-  //   clearBTN.addEventListener("click", function () {
-  //     console.log("Clear history button clicked");
-  //     localStorage.clear('');
-  //   });
+  //     clearBTN.addEventListener('click', function () {
+  //         console.log('Clear history button clicked');
+  //         localStorage.clear();
+  //     });
   // }
 
   var numLog = parseInt(localStorage.getItem(`singleTick`)) || 1;
@@ -69,6 +82,9 @@ $(document).ready(function () {
     //log input values
     console.log(songInput);
     console.log(artistInput);
+
+    // Switch off History Mode
+    localStorage.setItem(`historyCheck`, `0`);
 
     //empty input fields
     $("#songInput").val("");
@@ -103,7 +119,92 @@ $(document).ready(function () {
     }
   });
 
-  if (document.URL.includes(`display.html`)) {
+  // History Section
+
+  if (
+    localStorage.getItem(`historyCheck`) !== "0" &&
+    document.URL.includes(`display.html`)
+  ) {
+    var currentSongFetch = localStorage.getItem(`songInputHistory`);
+    var currentArtistFetch = localStorage.getItem(`artistInputHistory`);
+    console.log("Current Song:", currentSongFetch);
+    console.log("Current Artist:", currentArtistFetch);
+
+    // Thumbnail Generation for Youtube
+    function createThumbnail(videoId, title) {
+      var thumbnailContainer = document.createElement("div");
+      thumbnailContainer.classList.add("youtubeDynamics");
+
+      // Create thumbnail image
+      var thumbnailImg = document.createElement("img");
+      thumbnailImg.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+      thumbnailImg.width = 560;
+      thumbnailImg.height = 315;
+      thumbnailContainer.appendChild(thumbnailImg);
+
+      // Create title element
+      var titleElement = document.createElement("h3");
+      titleElement.textContent = title;
+      thumbnailContainer.appendChild(titleElement);
+
+      // Add click event to open video on YouTube
+      thumbnailContainer.addEventListener("click", function () {
+        window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
+      });
+
+      return thumbnailContainer;
+    }
+
+    var heroApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=song${currentSongFetch}music-artist${currentArtistFetch}&maxResults=1&type=video&key=${keyYT}`;
+
+    fetch(heroApiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        var videos = data.items;
+        videos.forEach((video) => {
+          var videoTitle = `${currentSongFetch} by ${currentArtistFetch}`;
+          var videoId = video.id.videoId;
+          var videoStorage = document.getElementById(`hero`);
+          var createTitle = document.createElement(`h1`);
+          createTitle.id = `titleCard`;
+          videoStorage.appendChild(createTitle);
+          var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+          videoStorage.appendChild(thumbnailElement);
+          createTitle.innerHTML = `${videoTitle}`;
+        });
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+
+    // var genreBreak = localStorage.getItem(`newGenres`)
+    var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+    console.log(genreBreak);
+
+    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
+
+    fetch(apiUrlRecommendations)
+      .then((response) => response.json())
+      .then((data) => {
+        var videos = data.items;
+
+        var recommendationsStorage = document.getElementById("recommends");
+
+        videos.forEach((video) => {
+          var videoId = video.id.videoId;
+
+          // Create thumbnail with title and link
+          var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+          recommendationsStorage.appendChild(thumbnailElement);
+        });
+      })
+      .catch((error) =>
+        console.error("Error fetching recommendations data:", error)
+      );
+  }
+
+  if (
+    localStorage.getItem(`historyCheck`) === "0" &&
+    document.URL.includes(`display.html`)
+  ) {
     //fetch data from apis
     fetchSongData(songInput, artistInput);
     fetchArtistData(artistInput);
@@ -144,7 +245,7 @@ $(document).ready(function () {
       .then((data) => {
         var videos = data.items;
         videos.forEach((video) => {
-          var videoTitle = `"${currentSongFetch}' by ${currentArtistFetch}`;
+          var videoTitle = `${currentSongFetch} by ${currentArtistFetch}`;
           var videoId = video.id.videoId;
           var videoStorage = document.getElementById(`hero`);
           var createTitle = document.createElement(`h1`);
