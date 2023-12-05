@@ -217,8 +217,19 @@ button {
 .clearHistory {
     float: right;
 } */
+#artistSongs {
+    height: auto;
+}
 
+#songList {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
 
+.songListItems {
+    list-style: none;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 20px;
