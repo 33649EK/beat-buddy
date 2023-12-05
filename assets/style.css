@@ -158,13 +158,18 @@ button {
     font-family: 'Electrolize', sans-serif;
 }
 
-.hero {
-    align-items: center;
-}
-
 #hero {
     padding: 20px;
+    align-items: center;
+    cursor: pointer;
 }
+
+#recommends {
+    padding: 20px;
+    align-items: center;
+    cursor: pointer;
+}
+
 .titleCard {
     text-align: center;
     font-size: small;
