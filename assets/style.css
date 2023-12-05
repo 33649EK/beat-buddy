@@ -21,17 +21,18 @@ h1 {
     text-shadow: 2px 2px 2px #0d024c;
     text-align: center;
 }
-
+/* Smaller headings */
 h3 {
     cursor: pointer;
 }
-
+/* Error */
 #error-message {
     font-size: xx-large;
     color: red;
     text-align: center;
 }
 
+/* Navbar */
 ul {
     display: flex;
     background-color: #0d024c;
@@ -40,12 +41,14 @@ ul {
     top: 0px;
 }
 
+/* Navbar links */
 ul a {
     color: #d8dfe7;
     padding: 14px 20px;
     text-decoration: none;
     justify-items: left;
   }
+
 /* Container to hold the entire content */
 .main-container {
     position: relative;
@@ -115,17 +118,6 @@ ul a {
     visibility: hidden;
 }
 
-
-.footer {
-    font-family:'Electrolize', sans-serif;
-    font-size: 30px;
-    text-align: center;
-    background-color: #0d024c;
-    margin-top: 20px;
-    color: #0ad0fd;
-    padding: 10px;
-}
-
 /* Styling for the text input */
 .user-input {
     padding: 10px;
@@ -164,25 +156,25 @@ button {
     cursor: pointer;
 }
 
+/* Recommended Items */
 #recommends {
     padding: 20px;
     align-items: center;
     cursor: pointer;
 }
 
+/* Styling for title card youtube videos */
 .titleCard {
     text-align: center;
     font-size: small;
 }
 
+/* Styling for youtube links */
 #youtubeDynamics {
     cursor: pointer;
 }
 
-#recommends {
-    margin-top: 100px;
-}
-
+/* Holds artistSongs and artistLocation */
 .content-box {
     flex: 1;
     box-sizing: border-box;
@@ -193,11 +185,14 @@ button {
     background-color: #0d024c;
 }
 
+/* Holds artistSongs and artistLocation */
 .container {
     display: flex;
     width: 100%;
+    color: white;
 }
 
+/* Display of cards for history items */
 #history {
    display:flex;
    list-style: none;
@@ -208,6 +203,7 @@ button {
    background-color: transparent;
 }
 
+/* Displays cards with history items */
 .card {
     border: 1px solid #ccc;
     padding: 10px;
@@ -215,26 +211,30 @@ button {
     background-color: #04718a !important;
     margin-bottom: 10px;
   }
-/* .hide {
-    display: none;
+
+/* Display of info on artist info page */
+#artistLocation {
+   height: auto;
+   overflow: hidden;
 }
 
-.clearHistory {
-    float: right;
-} */
+/* Container for display of songs on artist info page */
 #artistSongs {
     height: auto;
 }
 
+/* Display of songs on artist info page */
 #songList {
     display: flex;
     flex-direction: column;
     color: white;
 }
 
+/* List item properties on song list */
 .songListItems {
     list-style: none;
 }
+
 /* width */
 ::-webkit-scrollbar {
     width: 20px;
@@ -264,7 +264,40 @@ button {
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 640px) {
-    /* styles for small screens */
+    h1 {
+        font-size: 50px; /* Adjust the font size for smaller screens */
+    }
+
+    ul {
+        flex-direction: column; /* Stack the navigation items vertically */
+        text-align: center; /* Center-align the navigation items */
+    }
+
+    ul a {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .content {
+        width: 90%; /* Adjust the width of the content */
+    }
+
+    .center {
+        padding: 5px; /* Adjust padding for smaller screens */
+    }
+
+    .instructions,
+    .custom-label {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
+
+    .user-input {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
+
+    button {
+        padding: 5px 30px; /* Adjust padding for smaller screens */
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
 }
 
 
