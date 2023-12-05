@@ -9,7 +9,6 @@ body {
     background: linear-gradient(55deg, #231589 0%, rgb(81, 2, 67) 51%, rgb(176, 58, 155));
     background-repeat: no-repeat;
     background-size: 300% 300%;
-    overflow: hidden;
 }
 
 
@@ -22,7 +21,6 @@ h1 {
     text-shadow: 2px 2px 2px #0d024c;
     text-align: center;
 }
-
 /* Smaller headings */
 h3 {
     cursor: pointer;
@@ -89,9 +87,9 @@ ul a {
     align-items: center;
     justify-content: center;
     text-align: center;
-    max-width: 500px;
-    background-color: #0ad0fd;
-    padding: 50px;
+    max-width: 600px;
+    background-color: rgba(5, 226, 237);
+    padding: 9px;
     border-radius: 50px;
     margin:auto;
 }
@@ -111,8 +109,6 @@ ul a {
     display: block;
     margin-bottom: 10px;
     font-size: 20px;
-    font-weight: 800;
-    color:#0d024c
 }
 
 
@@ -129,13 +125,12 @@ ul a {
     font-size: 20px;
     background-color: rgba(98, 35, 96, 0.719);
     border-radius: 30px;
-    color:#e2c5e4;
 }
 
 
 /* Styling for the input placeholder */
 input::placeholder {
-    color: #e2c5e461;
+    color: #e2c5e4;
     text-align: center;
     font-family: 'Electrolize', sans-serif;
     font-style: italic;
@@ -147,12 +142,11 @@ input::placeholder {
 button {
     background-color: rgba(23,24,88,255);
     color: #e2c5e4;
-    padding: 9px 15px;
+    padding: 7px 55px;
     border: none;
     border-radius: 30px;
     cursor: pointer;
     font-size: 20px;
-    margin-top: 20px;
     font-family: 'Electrolize', sans-serif;
 }
 
@@ -196,28 +190,6 @@ button {
     display: flex;
     width: 100%;
     color: white;
-}
-
-.big-container {
-    display:flex;
-    margin: 10px;
-    padding: 10px;
-}
-
-#box1, #box2, #box3 {
-    width: 33%;
-    height: 100px;
-    margin-top: 20px;
-    background-color:#04718a54;
-    text-align: center;
-    align-items: center;
-    color:#0ad0fd
-}
-
-#box1 h3, #box2 h3, #box3 h3 {
-    font-style: italic;
-    font-weight: 700;
-    color:#e2c5e4
 }
 
 /* Display of cards for history items */

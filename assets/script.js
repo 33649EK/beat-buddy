@@ -1,6 +1,6 @@
 //fire on DOM load
 $(document).ready(function () {
-  var keyYT = `AIzaSyC8dPZckuuIkIeGOd7pi2HVvO8sDAIMKw0`;
+  var keyYT = `AIzaSyC348gfVsQumQjlTUFmjmsL3mC1_nC4-IU`;
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
