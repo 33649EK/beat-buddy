@@ -1,6 +1,6 @@
 //fire on DOM load
 $(document).ready(function () {
-  var keyYT = `AIzaSyD_vAAd14cml7R8OO8nzRQOsDU6tNp8yTc`;
+  var keyYT = `AIzaSyC348gfVsQumQjlTUFmjmsL3mC1_nC4-IU`;
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
@@ -121,10 +121,7 @@ $(document).ready(function () {
 
   // History Section
 
-  if (
-    localStorage.getItem(`historyCheck`) !== "0" &&
-    document.URL.includes(`display.html`)
-  ) {
+  if ( localStorage.getItem(`historyCheck`) !== "0" && document.URL.includes(`display.html`)) {
     var currentSongFetch = localStorage.getItem(`songInputHistory`);
     var currentArtistFetch = localStorage.getItem(`artistInputHistory`);
     console.log("Current Song:", currentSongFetch);
@@ -175,8 +172,8 @@ $(document).ready(function () {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    // var genreBreak = localStorage.getItem(`newGenres`)
-    var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+    var genreBreak = localStorage.getItem(`newGenres`)
+    // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
     console.log(genreBreak);
 
     var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
@@ -201,10 +198,33 @@ $(document).ready(function () {
       );
   }
 
-  if (
-    localStorage.getItem(`historyCheck`) === "0" &&
-    document.URL.includes(`display.html`)
-  ) {
+  if (localStorage.getItem(`historyCheck`) !== "0" && document.URL.includes(`display.html`)) {
+  var genreBreakUltra = localStorage.getItem(`topGenres`)
+  // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+  console.log(genreBreakUltra);
+
+  var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos-&maxResults=3&type=video&key=${keyYT}`;
+
+  fetch(apiUrlLargeRecommendations)
+    .then((response) => response.json())
+    .then((data) => {
+      var videos = data.items;
+
+      var recommendationsStorage = document.getElementById("videoUltra");
+
+      videos.forEach((video) => {
+        var videoId = video.id.videoId;
+
+        // Create thumbnail with title and link
+        var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+        recommendationsStorage.appendChild(thumbnailElement);
+      });
+    })
+    .catch((error) =>
+      console.error("Error fetching recommendations data:", error)
+    );}
+
+  if (localStorage.getItem(`historyCheck`) === "0" && document.URL.includes(`display.html`)) {
     //fetch data from apis
     fetchSongData(songInput, artistInput);
     fetchArtistData(artistInput);
@@ -258,11 +278,11 @@ $(document).ready(function () {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    // var genreBreak = localStorage.getItem(`newGenres`)
-    var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+    var genreBreak = localStorage.getItem(`newGenres`)
+    // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
     console.log(genreBreak);
 
-    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
+    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak} music videos &maxResults=3&type=video&key=${keyYT}`;
 
     fetch(apiUrlRecommendations)
       .then((response) => response.json())
@@ -282,6 +302,33 @@ $(document).ready(function () {
       .catch((error) =>
         console.error("Error fetching recommendations data:", error)
       );
+
+
+      if (localStorage.getItem(`historyCheck`) === "0" && document.URL.includes(`display.html`)) {
+    var genreBreakUltra = localStorage.getItem(`topGenres`)
+    // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+    console.log(genreBreakUltra);
+
+    var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos&maxResults=3&type=video&key=${keyYT}`;
+
+    fetch(apiUrlLargeRecommendations)
+      .then((response) => response.json())
+      .then((data) => {
+        var videos = data.items;
+
+        var recommendationsStorage = document.getElementById("videoUltra");
+
+        videos.forEach((video) => {
+          var videoId = video.id.videoId;
+
+          // Create thumbnail with title and link
+          var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+          recommendationsStorage.appendChild(thumbnailElement);
+        });
+      })
+      .catch((error) =>
+        console.error("Error fetching recommendations data:", error)
+      ); }
 
     // Make the fetch request to MusicBrainz API for entered artist
     function fetchArtistData(artistInput) {
