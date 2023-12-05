@@ -7,8 +7,8 @@ $(document).ready(function () {
   function removeDuplicateSongs(data) {
     return [...new Set(data)];
   }
-  var artistName = "Polyphia";
-  var artistArea = "United States";
+  var artistName = localStorage.getItem("artistInput");
+  var artistArea = localStorage.getItem("location");
   var uniqueSongTitles = removeDuplicateSongs(songTitles);
   //   var artistLocation = [];
   //   var songList = document.getElementById("songList");

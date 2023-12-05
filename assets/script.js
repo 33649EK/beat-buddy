@@ -367,6 +367,7 @@ $(document).ready(function () {
             ) {
               const location = artistInformation.area.name;
               console.log(location);
+              localStorage.setItem("location", location);
             } else {
               console.log(`No location infromation for ${artistInput}`);
             }
