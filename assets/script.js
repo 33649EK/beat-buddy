@@ -1,6 +1,6 @@
 //fire on DOM load
 $(document).ready(function () {
-  var keyYT = `AIzaSyC348gfVsQumQjlTUFmjmsL3mC1_nC4-IU`;
+  var keyYT = `AIzaSyCEz-gzgeV8eyP--YNjRJ9dxYoY5oQ3384`;
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
@@ -152,7 +152,7 @@ $(document).ready(function () {
       return thumbnailContainer;
     }
 
-    var heroApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=song${currentSongFetch}music-artist${currentArtistFetch}&maxResults=1&type=video&key=${keyYT}`;
+    var heroApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${currentSongFetch}-by-${currentArtistFetch}-music-video&maxResults=1&type=video&key=${keyYT}`;
 
     fetch(heroApiUrl)
       .then((response) => response.json())
@@ -172,11 +172,13 @@ $(document).ready(function () {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    var genreBreak = localStorage.getItem(`newGenres`)
+    // var genreBreak = localStorage.getItem(`newGenres`)
+    var genreBreak = `Music Videos Like ${currentSongFetch} by ${currentArtistFetch}`;
     // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
-    console.log(genreBreak);
+    // console.log(`newGenre from History Search`, genreBreak);
 
-    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=3&type=video&key=${keyYT}`;
+
+    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=4&type=video&key=${keyYT}`;
 
     fetch(apiUrlRecommendations)
       .then((response) => response.json())
@@ -201,7 +203,7 @@ $(document).ready(function () {
   if (localStorage.getItem(`historyCheck`) !== "0" && document.URL.includes(`display.html`)) {
   var genreBreakUltra = localStorage.getItem(`topGenres`)
   // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
-  console.log(genreBreakUltra);
+  console.log(`topGenre from History Search`, genreBreakUltra);
 
   var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos-&maxResults=3&type=video&key=${keyYT}`;
 
@@ -258,7 +260,7 @@ $(document).ready(function () {
       return thumbnailContainer;
     }
 
-    var heroApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=song${currentSongFetch}music-artist${currentArtistFetch}&maxResults=1&type=video&key=${keyYT}`;
+    var heroApiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${currentSongFetch}-by-${currentArtistFetch}-Music-Video&maxResults=1&type=video&key=${keyYT}`;
 
     fetch(heroApiUrl)
       .then((response) => response.json())
@@ -278,11 +280,12 @@ $(document).ready(function () {
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    var genreBreak = localStorage.getItem(`newGenres`)
+    // var genreBreak = localStorage.getItem(`newGenres`)
+    var genreBreak = `Music Videos Like ${currentSongFetch} by ${currentArtistFetch}`;
     // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
-    console.log(genreBreak);
+    console.log(`newGenre from searched term`, genreBreak);
 
-    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak} music videos &maxResults=3&type=video&key=${keyYT}`;
+    var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}-music-videos-&maxResults=3&type=video&key=${keyYT}`;
 
     fetch(apiUrlRecommendations)
       .then((response) => response.json())
@@ -292,6 +295,7 @@ $(document).ready(function () {
         var recommendationsStorage = document.getElementById("recommends");
 
         videos.forEach((video) => {
+
           var videoId = video.id.videoId;
 
           // Create thumbnail with title and link
@@ -304,10 +308,10 @@ $(document).ready(function () {
       );
 
 
-      if (localStorage.getItem(`historyCheck`) === "0" && document.URL.includes(`display.html`)) {
+    if (localStorage.getItem(`historyCheck`) === "0" && document.URL.includes(`display.html`)) {
     var genreBreakUltra = localStorage.getItem(`topGenres`)
     // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
-    console.log(genreBreakUltra);
+    console.log(`topGenre from Current Search`, genreBreakUltra);
 
     var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos&maxResults=3&type=video&key=${keyYT}`;
 
@@ -319,6 +323,7 @@ $(document).ready(function () {
         var recommendationsStorage = document.getElementById("videoUltra");
 
         videos.forEach((video) => {
+          
           var videoId = video.id.videoId;
 
           // Create thumbnail with title and link
