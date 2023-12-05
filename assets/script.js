@@ -372,15 +372,6 @@ $(document).ready(function () {
               console.log(`No location infromation for ${artistInput}`);
             }
           })
-          // .then((artistInformation) => {
-          //   if (
-          //     artistInformation.area.name &&
-          //     artistInformation.area.name.length > 0
-          //   ) {
-          //     const location = artistInformation.area.name;
-          //     console.log(location);
-          //   }
-          // })
           .catch((error) => {
             console.error("Error:", error);
             $("#error-message").text("Please submit a valid song/artist!");
@@ -470,10 +461,10 @@ $(document).ready(function () {
       });
       console.log(genreOccuranceAmount);
 
-      //Sorts the genres in descending order of appearance amount and takes the top 5
+      //Sorts the genres in descending order of appearance amount and takes the top 3
       var topGenres = Object.keys(genreOccuranceAmount)
         .sort((a, b) => genreOccuranceAmount[b] - genreOccuranceAmount[a])
-        .slice(0, 5);
+        .slice(0, 3);
       console.log(topGenres);
       localStorage.setItem("topGenres", topGenres);
     }
