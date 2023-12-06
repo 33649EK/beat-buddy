@@ -5,7 +5,7 @@
 /* Reset the default margin */
 body {
     font-family: 'Electrolize', sans-serif;
-    height: 100vh;
+    height: 100%;
     background: linear-gradient(55deg, #231589 0%, rgb(81, 2, 67) 51%, rgb(176, 58, 155));
     background-repeat: no-repeat;
     background-size: 300% 300%;
@@ -21,10 +21,12 @@ h1 {
     text-shadow: 2px 2px 2px #0d024c;
     text-align: center;
 }
+
 /* Smaller headings */
 h3 {
     cursor: pointer;
 }
+
 /* Error */
 #error-message {
     font-size: xx-large;
@@ -37,7 +39,7 @@ ul {
     display: flex;
     background-color: #0d024c;
     padding: 10px;
-    justify-items:left;
+    justify-items: left;
     top: 0px;
 }
 
@@ -47,7 +49,7 @@ ul a {
     padding: 14px 20px;
     text-decoration: none;
     justify-items: left;
-  }
+}
 
 /* Container to hold the entire content */
 .main-container {
@@ -91,7 +93,7 @@ ul a {
     background-color: rgba(5, 226, 237);
     padding: 9px;
     border-radius: 50px;
-    margin:auto;
+    margin: auto;
 }
 
 
@@ -140,7 +142,7 @@ input::placeholder {
 
 /* Styling for the submit button */
 button {
-    background-color: rgba(23,24,88,255);
+    background-color: rgba(23, 24, 88, 255);
     color: #e2c5e4;
     padding: 7px 55px;
     border: none;
@@ -178,7 +180,7 @@ button {
 .content-box {
     flex: 1;
     box-sizing: border-box;
-    height:100px;
+    height: 100px;
     padding: 20px;
     margin: 10px;
     overflow: auto;
@@ -194,13 +196,13 @@ button {
 
 /* Display of cards for history items */
 #history {
-   display:flex;
-   list-style: none;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
-   font-family: 'Electrolize', sans-serif;
-   background-color: transparent;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Electrolize', sans-serif;
+    background-color: transparent;
 }
 
 /* Displays cards with history items */
@@ -210,12 +212,12 @@ button {
     border-radius: 5px;
     background-color: #04718a !important;
     margin-bottom: 10px;
-  }
+}
 
 /* Display of info on artist info page */
 #artistLocation {
-   height: auto;
-   overflow: hidden;
+    height: auto;
+    overflow: hidden;
 }
 
 /* Container for display of songs on artist info page */
@@ -239,64 +241,75 @@ button {
 ::-webkit-scrollbar {
     width: 20px;
 }
- 
+
 /* Track */
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 50px rgb(131, 9, 140);
     border-radius: 10px;
 }
-   
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #04718a;
     border-radius: 10px;
 }
- 
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #0ad0fd;
 }
+
 /* What is not covered by handle */
 ::-webkit-scrollbar-track-piece {
-    background:rgb(81, 2, 67)
+    background: rgb(81, 2, 67)
 }
 
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 640px) {
     h1 {
-        font-size: 50px; /* Adjust the font size for smaller screens */
+        font-size: 50px;
+        /* Adjust the font size for smaller screens */
     }
 
     ul {
-        flex-direction: column; /* Stack the navigation items vertically */
-        text-align: center; /* Center-align the navigation items */
+        flex-direction: column;
+        /* Stack the navigation items vertically */
+        text-align: center;
+        /* Center-align the navigation items */
     }
 
     ul a {
-        padding: 10px; /* Adjust padding for smaller screens */
+        padding: 10px;
+        /* Adjust padding for smaller screens */
     }
 
     .content {
-        width: 90%; /* Adjust the width of the content */
+        width: 90%;
+        /* Adjust the width of the content */
     }
 
     .center {
-        padding: 5px; /* Adjust padding for smaller screens */
+        padding: 5px;
+        /* Adjust padding for smaller screens */
     }
 
     .instructions,
     .custom-label {
-        font-size: 16px; /* Adjust font size for smaller screens */
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
     }
 
     .user-input {
-        font-size: 16px; /* Adjust font size for smaller screens */
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
     }
 
     button {
-        padding: 5px 30px; /* Adjust padding for smaller screens */
-        font-size: 16px; /* Adjust font size for smaller screens */
+        padding: 5px 30px;
+        /* Adjust padding for smaller screens */
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
     }
 }
 
