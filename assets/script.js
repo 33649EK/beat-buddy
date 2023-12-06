@@ -1,6 +1,6 @@
 //fire on DOM load
 $(document).ready(function () {
-  var keyYT = `AIzaSyCEz-gzgeV8eyP--YNjRJ9dxYoY5oQ3384`;
+  var keyYT = `AIzaSyD88bxs0uPiWAYj_tMdOsLq0oGa-TL_gqQ`;
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
@@ -82,7 +82,6 @@ $(document).ready(function () {
     //log input values
     console.log(songInput);
     console.log(artistInput);
-    fetchArtistData(artistInput);
     // Switch off History Mode
     localStorage.setItem(`historyCheck`, `0`);
 
@@ -238,7 +237,7 @@ $(document).ready(function () {
   ) {
     //fetch data from apis
     fetchSongData(songInput, artistInput);
-
+    fetchArtistData(artistInput);
     var currentSongFetch = localStorage.getItem(`song${digit[0] - 1}`);
     var currentArtistFetch = localStorage.getItem(`artist${digit[0] - 1}`);
     console.log("Current Song:", currentSongFetch);
