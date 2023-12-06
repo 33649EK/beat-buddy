@@ -1,6 +1,6 @@
 //fire on DOM load
 $(document).ready(function () {
-  var keyYT = `AIzaSyCEz-gzgeV8eyP--YNjRJ9dxYoY5oQ3384`;
+  var keyYT = `AIzaSyD88bxs0uPiWAYj_tMdOsLq0oGa-TL_gqQ`;
   var songInput = localStorage.getItem(`songInput`);
   var artistInput = localStorage.getItem(`artistInput`);
 
@@ -82,7 +82,6 @@ $(document).ready(function () {
     //log input values
     console.log(songInput);
     console.log(artistInput);
-
     // Switch off History Mode
     localStorage.setItem(`historyCheck`, `0`);
 
@@ -121,7 +120,10 @@ $(document).ready(function () {
 
   // History Section
 
-  if ( localStorage.getItem(`historyCheck`) !== "0" && document.URL.includes(`display.html`)) {
+  if (
+    localStorage.getItem(`historyCheck`) !== "0" &&
+    document.URL.includes(`display.html`)
+  ) {
     var currentSongFetch = localStorage.getItem(`songInputHistory`);
     var currentArtistFetch = localStorage.getItem(`artistInputHistory`);
     console.log("Current Song:", currentSongFetch);
@@ -177,7 +179,6 @@ $(document).ready(function () {
     // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
     // console.log(`newGenre from History Search`, genreBreak);
 
-
     var apiUrlRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreak}&maxResults=4&type=video&key=${keyYT}`;
 
     fetch(apiUrlRecommendations)
@@ -200,33 +201,40 @@ $(document).ready(function () {
       );
   }
 
-  if (localStorage.getItem(`historyCheck`) !== "0" && document.URL.includes(`display.html`)) {
-  var genreBreakUltra = localStorage.getItem(`topGenres`)
-  // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
-  console.log(`topGenre from History Search`, genreBreakUltra);
+  if (
+    localStorage.getItem(`historyCheck`) !== "0" &&
+    document.URL.includes(`display.html`)
+  ) {
+    var genreBreakUltra = localStorage.getItem(`topGenres`);
+    // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+    console.log(`topGenre from History Search`, genreBreakUltra);
 
-  var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos-&maxResults=3&type=video&key=${keyYT}`;
+    var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos-&maxResults=3&type=video&key=${keyYT}`;
 
-  fetch(apiUrlLargeRecommendations)
-    .then((response) => response.json())
-    .then((data) => {
-      var videos = data.items;
+    fetch(apiUrlLargeRecommendations)
+      .then((response) => response.json())
+      .then((data) => {
+        var videos = data.items;
 
-      var recommendationsStorage = document.getElementById("videoUltra");
+        var recommendationsStorage = document.getElementById("videoUltra");
 
-      videos.forEach((video) => {
-        var videoId = video.id.videoId;
+        videos.forEach((video) => {
+          var videoId = video.id.videoId;
 
-        // Create thumbnail with title and link
-        var thumbnailElement = createThumbnail(videoId, video.snippet.title);
-        recommendationsStorage.appendChild(thumbnailElement);
-      });
-    })
-    .catch((error) =>
-      console.error("Error fetching recommendations data:", error)
-    );}
+          // Create thumbnail with title and link
+          var thumbnailElement = createThumbnail(videoId, video.snippet.title);
+          recommendationsStorage.appendChild(thumbnailElement);
+        });
+      })
+      .catch((error) =>
+        console.error("Error fetching recommendations data:", error)
+      );
+  }
 
-  if (localStorage.getItem(`historyCheck`) === "0" && document.URL.includes(`display.html`)) {
+  if (
+    localStorage.getItem(`historyCheck`) === "0" &&
+    document.URL.includes(`display.html`)
+  ) {
     //fetch data from apis
     fetchSongData(songInput, artistInput);
     fetchArtistData(artistInput);
@@ -295,7 +303,6 @@ $(document).ready(function () {
         var recommendationsStorage = document.getElementById("recommends");
 
         videos.forEach((video) => {
-
           var videoId = video.id.videoId;
 
           // Create thumbnail with title and link
@@ -307,33 +314,38 @@ $(document).ready(function () {
         console.error("Error fetching recommendations data:", error)
       );
 
+    if (
+      localStorage.getItem(`historyCheck`) === "0" &&
+      document.URL.includes(`display.html`)
+    ) {
+      var genreBreakUltra = localStorage.getItem(`topGenres`);
+      // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
+      console.log(`topGenre from Current Search`, genreBreakUltra);
 
-    if (localStorage.getItem(`historyCheck`) === "0" && document.URL.includes(`display.html`)) {
-    var genreBreakUltra = localStorage.getItem(`topGenres`)
-    // var genreBreak = `song like ${currentArtistFetch} by ${currentSongFetch}`;
-    console.log(`topGenre from Current Search`, genreBreakUltra);
+      var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos&maxResults=3&type=video&key=${keyYT}`;
 
-    var apiUrlLargeRecommendations = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${genreBreakUltra}-music-videos&maxResults=3&type=video&key=${keyYT}`;
+      fetch(apiUrlLargeRecommendations)
+        .then((response) => response.json())
+        .then((data) => {
+          var videos = data.items;
 
-    fetch(apiUrlLargeRecommendations)
-      .then((response) => response.json())
-      .then((data) => {
-        var videos = data.items;
+          var recommendationsStorage = document.getElementById("videoUltra");
 
-        var recommendationsStorage = document.getElementById("videoUltra");
+          videos.forEach((video) => {
+            var videoId = video.id.videoId;
 
-        videos.forEach((video) => {
-          
-          var videoId = video.id.videoId;
-
-          // Create thumbnail with title and link
-          var thumbnailElement = createThumbnail(videoId, video.snippet.title);
-          recommendationsStorage.appendChild(thumbnailElement);
-        });
-      })
-      .catch((error) =>
-        console.error("Error fetching recommendations data:", error)
-      ); }
+            // Create thumbnail with title and link
+            var thumbnailElement = createThumbnail(
+              videoId,
+              video.snippet.title
+            );
+            recommendationsStorage.appendChild(thumbnailElement);
+          });
+        })
+        .catch((error) =>
+          console.error("Error fetching recommendations data:", error)
+        );
+    }
 
     // Make the fetch request to MusicBrainz API for entered artist
     function fetchArtistData(artistInput) {
@@ -424,15 +436,6 @@ $(document).ready(function () {
               console.log(`No location infromation for ${artistInput}`);
             }
           })
-          // .then((artistInformation) => {
-          //   if (
-          //     artistInformation.area.name &&
-          //     artistInformation.area.name.length > 0
-          //   ) {
-          //     const location = artistInformation.area.name;
-          //     console.log(location);
-          //   }
-          // })
           .catch((error) => {
             console.error("Error:", error);
             $("#error-message").text("Please submit a valid song/artist!");
@@ -522,10 +525,10 @@ $(document).ready(function () {
       });
       console.log(genreOccuranceAmount);
 
-      //Sorts the genres in descending order of appearance amount and takes the top 5
+      //Sorts the genres in descending order of appearance amount and takes the top 3
       var topGenres = Object.keys(genreOccuranceAmount)
         .sort((a, b) => genreOccuranceAmount[b] - genreOccuranceAmount[a])
-        .slice(0, 5);
+        .slice(0, 3);
       console.log(topGenres);
       localStorage.setItem("topGenres", topGenres);
     }
